@@ -1,0 +1,70 @@
+dir
+vim client.c
+vim server.c
+cd ../
+dir
+vim server.c
+cd ../
+dir
+vim client.c
+dir
+cp server.c server-mt.c
+vim server.c
+vim Makefile
+make
+./server
+./client
+./client
+./client
+./client
+xlap
+xkls
+xlap
+xkls
+systemctl restart
+systemctl reboot
+dir
+ls
+vim client.c
+vim server.c
+make
+./server
+./server
+./client
+./client
+./server
+./client
+./server
+./client
+fg
+./server
+./client
+./client
+vim server.c
+./client
+systemctl poweroff
+dir
+vim Makefile
+make clean
+dir
+cd ../
+dir
+vim server-mt.c
+dr
+dir
+vim server.c
+vim server-mt.c
+dir
+./server-mt
+./client
+vim server-mt.c
+make
+./server-mt
+./client
+./client
+dir
+make clean
+dir
+vim server-mt.c
+dir
+cd ../
