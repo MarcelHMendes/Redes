@@ -68,7 +68,7 @@ int main(int argc, char *argv[]){
 	char chave[TAM_MIN];		//Chave a ser usada, será enviada ao servidor
 	char *buf = (char *) malloc(TAM_MAX * sizeof(char)); //buffer para receber a msg
 
-	sprintf(tamMsg ,"%d" , strlen(menEncript)); 	
+	sprintf(tamMsg ,"%ld" , strlen(menEncript)); 	
 	strcpy(chave,argv[4]);
 
 	if(send(sock, tamMsg, strlen(tamMsg),0) < 0){	//Enviando tamanho da msg
@@ -86,13 +86,15 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	if(rBytes = recv(sock,buf,TAM_MAX,MSG_WAITALL) < 0){
-		perror("recv");
-		exit(1);
+	while(1){
+		if(rBytes = recv(sock,buf,TAM_MAX,0) < 0){
+			perror("recv");
+			exit(1);
+		}
 	}
 	buf[rBytes] = '\0';
 
-	printf("%s kkkk",buf);
+	printf("%s \n",buf);
 
 
 	exit(0);
