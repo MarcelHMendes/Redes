@@ -36,7 +36,7 @@ int main(void)
 	if(listen(s, 10)) logexit("listen");
 	printf("esperando conexao\n");
 
-	while(1) {
+	
 		struct sockaddr_in raddr;
 		struct sockaddr *raddrptr =
 			(struct sockaddr *)&raddr;
@@ -46,6 +46,9 @@ int main(void)
 		if(r == -1) logexit("accept");
 
 		char buf[512];
+		uint32_t tamMsg;
+		uint32_t chave;
+
 		char ipcliente[512];
 		inet_ntop(AF_INET, &(raddr.sin_addr),
 				ipcliente, 512);
@@ -53,19 +56,30 @@ int main(void)
 		printf("conexao de %s %d\n", ipcliente,
 				(int)ntohs(raddr.sin_port));
 
-		size_t c = recv(r, buf, 512, 0);
-		printf("recebemos %d bytes\n", (int)c);
+	
+		size_t c = recv(r,&tamMsg , sizeof(int), MSG_WAITALL);
+		size_t k = recv(r,buf,ntohl(tamMsg),MSG_WAITALL);
+		size_t l = recv(r,&chave,sizeof(int),MSG_WAITALL);	
+
+		printf("recebemos %d bytes\n", (int)c + (int)k + (int)l);
 		puts(buf);
 
-		sprintf(buf, "seu IP eh %s %d\n", ipcliente,
-				(int)ntohs(raddr.sin_port));
-		printf("enviando %s\n", buf);
+		printf("%d--",ntohl(tamMsg));
+		printf("%d\n",ntohl(chave));
 
-		send(r, buf, strlen(buf)+1, 0);
-		printf("enviou\n");
+		//sprintf(buf, "seu IP eh %s %d\n", ipcliente,
+		//		(int)ntohs(raddr.sin_port));
+		//printf("enviando %s\n", buf);
+		//printf("%d\n",strlen(buf));
+
+		//if(send(r, buf, strlen(buf), 0) < 0){
+		//	perror("send");
+		//	exit(1);
+		//}
+		//printf("enviou\n");
 
 		close(r);
-	}
+	
 
 	exit(EXIT_SUCCESS);
 }

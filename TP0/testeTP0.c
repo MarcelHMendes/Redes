@@ -23,7 +23,8 @@ char *cifra(char *mensagem,int chave){ //Cifra de Cesar
 }
 	
 int main(int argc, char *argv[]){
-	int sock,i,rBytes;
+	int sock,i;
+	ssize_t rBytes;
 	char mensagem[TAM_MAX];
 	char *menEncript = (char *) malloc(TAM_MAX*sizeof(char));
 	int x,port;
@@ -64,14 +65,25 @@ int main(int argc, char *argv[]){
 
 	menEncript = cifra(mensagem,x);	//Cifrando mensagem
 	
-	char tamMsg[TAM_MAX];	//Tamanho da mensagem, será enviado ao servidor
-	char chave[TAM_MIN];		//Chave a ser usada, será enviada ao servidor
+	uint32_t tamMsg;	//Tamanho da mensagem, será enviado ao servidor
+	uint32_t chave;		//Chave a ser usada, será enviada ao servidor
 	char *buf = (char *) malloc(TAM_MAX * sizeof(char)); //buffer para receber a msg
+	ssize_t c;
+	
 
-	sprintf(tamMsg ,"%ld" , strlen(menEncript)); 	
-	strcpy(chave,argv[4]);
+	memset(buf, 0, 512);
 
-	if(send(sock, tamMsg, strlen(tamMsg),0) < 0){	//Enviando tamanho da msg
+	//sprintf(tamMsg ,"%d" , strlen(menEncript)); 	
+	//strcpy(chave,argv[4]);
+
+	tamMsg = htonl(strlen(menEncript));
+	chave = htonl(x);
+
+
+	c = strlen(menEncript) + 2 * sizeof(int); //Variável para auxiliar no recebimento dos dados
+	int limit = c;
+
+	if(send(sock, &tamMsg, sizeof(int),0) < 0){	//Enviando tamanho da msg
 		perror("send");
 		exit(1);
 	}
@@ -81,21 +93,15 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	if(send(sock, chave, sizeof(int),0) < 0){	//Enviando chave
+	if(send(sock, &chave, sizeof(int),0) < 0){	//Enviando chave
 		perror("send");
 		exit(1);
 	}
 
-	while(1){
-		if(rBytes = recv(sock,buf,TAM_MAX,0) < 0){
-			perror("recv");
-			exit(1);
-		}
-	}
-	buf[rBytes] = '\0';
-
-	printf("%s \n",buf);
-
+	
+	
+	//NAO ESQUECER DE PASSAR OS ARGUENTOS, VAI DAR SEGFAULT!!!!!
 
 	exit(0);
+	
 }	
