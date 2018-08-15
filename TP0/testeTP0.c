@@ -80,9 +80,6 @@ int main(int argc, char *argv[]){
 	chave = htonl(x);
 
 
-	c = strlen(menEncript) + 2 * sizeof(int); //Variável para auxiliar no recebimento dos dados
-	int limit = c;
-
 	if(send(sock, &tamMsg, sizeof(int),0) < 0){	//Enviando tamanho da msg
 		perror("send");
 		exit(1);
@@ -98,7 +95,14 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	
+	c = recv(sock, buf,strlen(mensagem),MSG_WAITALL);
+	if(c < 0){
+		perror("recv");
+		exit(1);
+	}
+
+
+	printf("%s\n",buf);
 	
 	//NAO ESQUECER DE PASSAR OS ARGUENTOS, VAI DAR SEGFAULT!!!!!
 
