@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
 	char mensagem[TAM_MAX];
 	char *menEncript = (char *) malloc(TAM_MAX*sizeof(char));
 	int x,port;
-	char *ip = (char *) malloc(16*sizeof(char));
+	char *ip = (char *) malloc(32*sizeof(char));
 
 	ip = argv[1];
 	port = atoi(argv[2]);
