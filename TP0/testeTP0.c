@@ -30,10 +30,10 @@ int main(int argc, char *argv[]){
 	int x,port;
 	char *ip = (char *) malloc(16*sizeof(char));
 
-	ip = argv[3];
+	ip = argv[1];
 	port = atoi(argv[2]);
 	x = atoi(argv[4]);
-	strcpy(mensagem,argv[1]);	//Mensagem original
+	strcpy(mensagem,argv[3]);	//Mensagem original
 
 	printf("%s %d %s %d\n",mensagem,port,ip,x);
 
