@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include <unistd.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netdb.h>
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 	x = atoi(argv[4]);
 	strcpy(mensagem,argv[3]);	//Mensagem original
 
-	printf("%s %d %s %d\n",mensagem,port,ip,x);
+	//printf("%s\n",mensagem);
 
 	struct sockaddr_in server_addr;
 
@@ -93,6 +93,16 @@ int main(int argc, char *argv[]){
 	if(send(sock, &chave, sizeof(int),0) < 0){	//Enviando chave
 		perror("send");
 		exit(1);
+	}
+
+	/////////////////////////////////// TESTE
+
+	struct timeval tv;
+	tv.tv_sec = 15;
+	tv.tv_usec = 0;
+	if(setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof(tv))){
+		perror("setsockopt- rcvtimeo");
+    	exit(1);
 	}
 
 	c = recv(sock, buf,strlen(mensagem),MSG_WAITALL);
