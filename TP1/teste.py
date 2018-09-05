@@ -39,3 +39,13 @@ class Conexao:
 		self.sock = socket.socket(family = socket.AF_INET, type = socket.SOCK_DGRAM) #inicia o socket para transferencia de dados via UDP
 		return self.sock 	
 
+
+connection = Conexao("127.0.0.1",5152,"127.0.0.1")
+sock = connection.iniciaSock();
+
+msg = input()
+
+while msg != "0":
+	c = sock.sendto(msg.encode(),(connection.ipServ,connection.porto))
+	msg = input()
+sock.close()
