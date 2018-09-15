@@ -29,7 +29,6 @@ class Buffer:
 		self.buffer = [None for i in range(self.tamBuffer)]
 		self.tamanhoAtual = 0
 	
-
 class Conexao:
 	def __init__(self,ip,porta,ipServ):
 		self.ip = ip
@@ -39,13 +38,64 @@ class Conexao:
 		self.sock = socket.socket(family = socket.AF_INET, type = socket.SOCK_DGRAM) #inicia o socket para transferencia de dados via UDP
 		return self.sock 	
 
+	def leituraArq(self):
+		arq = open("text.txt","r") #
+		msg = arq.readline()
+		return msg 
 
+
+class somaVerif:
+	def __init__(self,msgSender,msgReceiver):
+		self.msgS = msgSender 
+		self.msgR = msgReceiver
+	def hash(self): 	
+		self.hash = hashlib.md5(self.msgD.encode())
+		return self.hash
+	def hashQ(self):
+		self.msgQ = 'erro'+self.msgSender 
+		self.hash = hashlib.md5(self.msgQ.encode())
+		return self.hash
+	def verif(self,hash1,hash2):
+		if hash1.digest() == hash2.digest():
+			return True
+		else:
+			return False
+
+class packetHandler:
+	
+
+
+
+'''teste'''
 connection = Conexao("127.0.0.1",5152,"127.0.0.1")
-sock = connection.iniciaSock();
+sock = connection.iniciaSock()
+msg = connection.leituraArq()
 
-msg = input()
+#while True:
+c = sock.sendto(msg.encode(),(connection.ipServ,connection.porto))
+msg = connection.leituraArq()
 
-while msg != "0":
-	c = sock.sendto(msg.encode(),(connection.ipServ,connection.porto))
-	msg = input()
+ha = somaVerif(msg)
+hg = somaVerif(msg)
+num = ha.hash()
+num2 = hg.hashQ()
+if num.digest() == num2.digest():
+	print("Everything is fine\n")
+else:
+	print("i'm screwed\n")
+print(num.digest())
+
 sock.close()
+
+'''class somaVerif:
+	def __init__(self,msg):
+		self.msgD = msg
+	def hash(self):	
+		self.hash = hashlib.md5(self.msgD.encode())
+		return self.hash
+	def hashQ(self):
+		self.msgQ = 'erro'+self.msgD 
+		print(self.msgQ)
+		self.hash = hashlib.md5(self.msgQ.encode())
+		return self.hash
+'''
