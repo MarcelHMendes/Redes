@@ -118,12 +118,17 @@ class Router():
 		for destination in msg['distances']:
 			for next_hop in msg['distances'][destination]:
 				if next_hop != self.ip:
-					cost = msg['distances'][destination][next_hop]
+					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
 					self.table.add_table(destination,msg['source'],cost)
-					
 		self.send_update()
 		#encaminhar mensagem de update		
 		#algoritmoVetorDistancia
+		#h_update() resonsável por adicionar os custos cumulutivos
+
+	def get_costs(self, source): 
+		cost = self.listAdj[source]
+		return cost
+
 	'''-----------------------------------------------------------------------------------'''
  
 	'''------------------------------------------------------------------------------------'''
@@ -257,18 +262,14 @@ P5.parse()
 
 R4.send_update()
 
-R1.Run()
-R2.Run()
-R3.Run()
-R4.Run()
-R5.Run()
+R2.recv_Message()
+R1.recv_Message()
+R3.recv_Message()
+R5.recv_Message()
 
+#print(R1.table.distance_vector_algorithm())
 
-
-
-print(R1.table.distance_vector_algorithm())
-
-'''print("tabela 1-----------------")
+print("tabela 1-----------------")
 print(R1.table.table)
 
 
@@ -283,7 +284,7 @@ print(R4.table.table)
 
 print("\ntable 5-------------------")
 print(R5.table.table)
-'''
+
 
 
 
