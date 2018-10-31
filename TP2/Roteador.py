@@ -49,7 +49,7 @@ class Router():
 		while True:
 			time.sleep(self.period)
 			self.send_update()
-
+			break
 		
 	def recv_Message(self):
 		while True:		
@@ -62,8 +62,7 @@ class Router():
 				self.h_trace(msg)
 			if msg['type'] == 'data':
 				self.h_data(msg)
-			break	
-
+			break
 	def remove_invalid_routes(self):
 		pass
 	'''--------------------------------------------------------------------------------- '''
@@ -94,9 +93,9 @@ class Router():
 	'''---------------------------------------------------------------------------------- '''
 
 	def h_trace(self, msg):
+		list_next_hops = self.table.distance_vector_algorithm()
 		if msg['destination'] != self.ip:
 			msg['hops'].append(self.ip)
-			list_next_hops = self.table.distance_vector_algorithm()
 			if msg['destination'] in list_next_hops:
 				n = msg['destination']
 				self.send_Message(msg,list_next_hops[n])
@@ -117,7 +116,7 @@ class Router():
 	def h_update(self,msg):
 		for destination in msg['distances']:
 			for next_hop in msg['distances'][destination]:
-				if next_hop != self.ip:
+				if next_hop != self.ip and destination != self.ip:
 					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
 					self.table.add_table(destination,msg['source'],cost)
 		self.send_update()
@@ -176,7 +175,7 @@ class dv_Table():
 		table_lock.acquire()
 		if destination not in self.table:
 			self.table[destination] = {}
-		
+		 
 		self.table[destination][next_hop] = cost	#encontrar outra forma de adicionar o ttl
 		table_lock.release()
 
@@ -266,6 +265,9 @@ R2.recv_Message()
 R1.recv_Message()
 R3.recv_Message()
 R5.recv_Message()
+R2.recv_Message()
+R3.recv_Message()
+
 
 #print(R1.table.distance_vector_algorithm())
 
