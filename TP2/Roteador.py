@@ -49,7 +49,7 @@ class Router():
 		while True:
 			time.sleep(self.period)
 			self.send_update()
-			break
+			
 		
 	def recv_Message(self):
 		while True:		
@@ -62,7 +62,7 @@ class Router():
 				self.h_trace(msg)
 			if msg['type'] == 'data':
 				self.h_data(msg)
-			break
+		
 	def remove_invalid_routes(self):
 		pass
 	'''--------------------------------------------------------------------------------- '''
@@ -119,7 +119,7 @@ class Router():
 				if next_hop != self.ip and destination != self.ip:
 					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
 					self.table.add_table(destination,msg['source'],cost)
-		self.send_update()
+		#self.send_update()
 		#encaminhar mensagem de update		
 		#algoritmoVetorDistancia
 		#h_update() resonsável por adicionar os custos cumulutivos
@@ -247,6 +247,7 @@ R2.initSocket()
 R3.initSocket()
 R4.initSocket()
 R5.initSocket()
+R6.initSocket()
 
 P1 = parser_Inputfile("entrada.txt",R1)
 P1.parse()
@@ -258,22 +259,23 @@ P4 = parser_Inputfile("entrada4.txt", R4)
 P4.parse()
 P5 = parser_Inputfile("entrada5.txt",R5) 
 P5.parse()
+P6 = parser_Inputfile("entrada6.txt",R6)
+P6.parse()
 
-R4.send_update()
 
-R2.recv_Message()
-R1.recv_Message()
-R3.recv_Message()
-R5.recv_Message()
-R2.recv_Message()
-R3.recv_Message()
+R1.Run()
+R2.Run()
+R3.Run()
+R4.Run()
+R5.Run()
+R6.Run()
 
+time.sleep(5)
 
 #print(R1.table.distance_vector_algorithm())
 
 print("tabela 1-----------------")
 print(R1.table.table)
-
 
 print("\ntabela 2-----------------")
 print(R2.table.table)
@@ -286,6 +288,9 @@ print(R4.table.table)
 
 print("\ntable 5-------------------")
 print(R5.table.table)
+
+print("\ntable 6 ------------------")
+print(R6.table.table)
 
 
 
