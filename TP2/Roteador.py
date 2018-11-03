@@ -50,7 +50,6 @@ class Router():
 			time.sleep(self.period)
 			self.send_update()
 			
-		
 	def recv_Message(self):
 		while True:		
 			msg, ip = self.router.recvfrom(2048)
@@ -77,10 +76,11 @@ class Router():
 
 	'''---------------------------------------------------------------------------------- '''	
 	def trace(self,destination):
-		msg = self.msg_trace(self.ip,destination)
-		#encaminha_msg
+		msg = self.msg_trace(self.ip,destination,self.table.table)
+		list_next_hops = self.table.distance_vector_algorithm()
+		if destination in list_next_hops:
+			self.send_Message(msg,list_next_hops[destination])
 	
-
 	def send_update(self):
 		for i in self.listAdj:
 			msg = self.msg_update(self.ip, i, self.table.table)			
@@ -101,8 +101,8 @@ class Router():
 				self.send_Message(msg,list_next_hops[n])
 		else: 
 			payload = json.dumps(msg)
-			new_msg = msg_data(self.ip, msg['source'], payload)
-			n = new_msg['destination']
+			new_msg = self.msg_data(self.ip, msg['source'], payload)
+			n = msg['source']
 			self.send_Message(new_msg, list_next_hops[n])
 
 	def h_data(self,msg):
@@ -110,8 +110,10 @@ class Router():
 			payload = json.dumps(msg)
 			print(payload)
 		else:
-			pass
-			#encaminha msg
+			list_next_hops = self.table.distance_vector_algorithm()
+			if msg['destination'] in list_next_hops:
+				n = msg['destination']
+				self.send_Message(msg, list_next_hops[n])
 
 	def h_update(self,msg):
 		for destination in msg['distances']:
@@ -119,11 +121,7 @@ class Router():
 				if next_hop != self.ip and destination != self.ip:
 					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
 					self.table.add_table(destination,msg['source'],cost)
-		#self.send_update()
-		#encaminhar mensagem de update		
-		#algoritmoVetorDistancia
-		#h_update() resonsável por adicionar os custos cumulutivos
-
+		
 	def get_costs(self, source): 
 		cost = self.listAdj[source]
 		return cost
@@ -199,19 +197,10 @@ class dv_Table():
 					min_cost = float((i[1]))
 					destination = v		
 
-			next_hop[destination] = {min_nexthop}
+			next_hop[destination] = min_nexthop
 		return next_hop		
 			
 	
-
-	'''Por enquanto a mensagem de update não está sendo propagada indefinidamente por causa do comando break inserido 
-	em send_update(), após a criação do distance_vector() a propagação irá parar quando não tiver nenhum update que diminua
-	os custos de acesso na rede '''	
-
-
-
-
-
 	'''------------------------------------------------------------------------------------- '''
 
 
