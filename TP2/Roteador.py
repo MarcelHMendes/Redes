@@ -4,15 +4,25 @@ import struct
 import time
 import threading
 import numpy as np
+import random
 
-table_lock = threading.Lock()
+table_lock = threading.Lock() #Lock de acesso da tabela de rotemaneto 
+valid_lock = threading.Lock() #Lock de acesso a lista de rotas válidas
 
 class Router():
-	def __init__(self, ip, name, port, period ):
+	def __init__(self, ip, port, period ):
+		''' 
+			@ip: String
+			@port: int
+			@listAdj: dict - dicionario que contém os vizinhos imediatos do roteador
+			@listValid: dict - dicionario que contém a lista de vizinhos validos (qu ainda estão conectados)
+			@period: int - tempo determinado para o update de rotas
+			@table: obj - tabela de roteamento   
+		'''
 		self.ip = ip
 		self.port = port
-		self.name = name
 		self.listAdj = {}	# vizinhos
+		self.listValid = {} #vizinhos
 		self.period = period
 		self.table = dv_Table()
 		
@@ -21,9 +31,11 @@ class Router():
 		self.router.bind((self.ip,self.port))
 	
 	def addNeighbors(self, neighbor, cost):
+		''' Adiciona vizinhos imediatos'''
 		self.listAdj[neighbor] = cost
 
 	def delNeighbors(self, neighbor):
+		'''Remove vizinhos imediatos '''
 		if neighbor in self.listAdj:
 			self.listAdj.pop(neighbor)
 		
@@ -51,6 +63,7 @@ class Router():
 			self.send_update()
 			
 	def recv_Message(self):
+		'''Recebe a mensagem e trata de acordo com seu tipos '''
 		while True:		
 			msg, ip = self.router.recvfrom(2048)
 			msg = json.loads(msg.decode('ascii'))
@@ -63,36 +76,79 @@ class Router():
 				self.h_data(msg)
 		
 	def remove_invalid_routes(self):
-		pass
+		'''Responsável por remover as rotas que já não estão ativas da tabela de roteamento '''
+		while True:
+			invalid = []
+			time.sleep(self.period)
+			for i in self.listValid:
+				if self.listValid[i] == 4:
+					invalid.append(i)
+			for d in invalid:
+				if d in self.listValid:
+					valid_lock.acquire()
+					del self.listValid[d]
+					valid_lock.release()
+					self.table.remove_table(d)
+			valid_lock.acquire()
+			for i in self.listValid:
+				self.listValid[i] = self.listValid[i] + 1
+			valid_lock.release()	
+			
 	'''--------------------------------------------------------------------------------- '''
 
 	'''--------------------------------------------------------------------------------- '''
+	def up_valid(self, neighbor):
+		''' Renova as rotas invalidas, setando o valor do ttl para 0 '''
+		valid_lock.acquire()
+		self.listValid[neighbor] = 0
+		valid_lock.release()
+
+	def del_valid(self, neighbor):
+		'''deleta o vizinho que não fornece uma rota valida '''
+		del self.listValid[neighbor]
+
+	def add_valid(self, neighbor):
+		'''Adiciona uma rrota valida '''
+		self.listValid[neighbor] = 0
+
 	def add_link(self, cost, neighbor):
+		'''Adiciona link entre dois roteadores '''
 		self.addNeighbors(cost, neighbor)
-		
+	
 	def del_link(self, neighbor):
+		'''deleta link entre dois roteadores '''
 		self.delNeighbors(neighbor)
 	'''-----------------------------------------------------------------------------------'''
 
 	'''---------------------------------------------------------------------------------- '''	
 	def trace(self,destination):
+		'''Envia a msg de traceroute '''
 		msg = self.msg_trace(self.ip,destination,self.table.table)
 		list_next_hops = self.table.distance_vector_algorithm()
 		if destination in list_next_hops:
 			self.send_Message(msg,list_next_hops[destination])
 	
 	def send_update(self):
+		'''Envia a tabela de rotas para roteadores vizinhos '''
 		for i in self.listAdj:
 			msg = self.msg_update(self.ip, i, self.table.table)			
 			self.router.sendto(msg, (i,self.port))
 
 	def send_Message(self, msg,  next_hop):
+		'''envia a mensagem para o próximo destino de acordo com a tabela de roteamento '''
 		self.router.sendto(msg,(next_hop, self.port))
 	'''---------------------------------------------------------------------------------- '''
 	
 	'''---------------------------------------------------------------------------------- '''
 
 	def h_trace(self, msg):
+		'''Trata a mensagem de trace, caso seja o destino ele envia novamente a msg para fonte como data.Caso contrário ele adiciona 
+		a seu ip e encaminha a msg '''
+
+		'''
+			@list_next_hops: dict - lista que recebe os hops para onde a msg será encaminhada
+		'''
+
 		list_next_hops = self.table.distance_vector_algorithm()
 		if msg['destination'] != self.ip:
 			msg['hops'].append(self.ip)
@@ -106,6 +162,8 @@ class Router():
 			self.send_Message(new_msg, list_next_hops[n])
 
 	def h_data(self,msg):
+
+		'''Trata a msg de dados,caso self.ip for o destino a função imprime o payload caso contrario encaminha a msg '''
 		if msg['destination'] == self.ip:
 			payload = json.dumps(msg)
 			print(payload)
@@ -116,11 +174,15 @@ class Router():
 				self.send_Message(msg, list_next_hops[n])
 
 	def h_update(self,msg):
+ 		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
+
 		for destination in msg['distances']:
 			for next_hop in msg['distances'][destination]:
 				if next_hop != self.ip and destination != self.ip:
 					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
 					self.table.add_table(destination,msg['source'],cost)
+					self.up_valid(msg['source'])
+
 		
 	def get_costs(self, source): 
 		cost = self.listAdj[source]
@@ -129,7 +191,7 @@ class Router():
 	'''-----------------------------------------------------------------------------------'''
  
 	'''------------------------------------------------------------------------------------'''
-
+	'''Funções de construção das mensagens '''
 	def msg_update(self, source, destination, distances):
 		msg = {
 			"type": "update",
@@ -177,12 +239,21 @@ class dv_Table():
 		self.table[destination][next_hop] = cost	#encontrar outra forma de adicionar o ttl
 		table_lock.release()
 
-	def remove_table(self,destination,next_hop):
+	def remove_table(self,next_hop):
 		table_lock.acquire()
-		del(self.table[destination][next_hop])	#RESOLVER PROBLEMA DA TABELA !!!!!!!!!!
+		del_list = []
+		for v,d in list(self.table.items()):
+			for i in list(d.items()):
+				if next_hop == i[0]:
+					del self.table[v][i[0]]
 
-		if(len(self.table[destination] == 0)):
-			del(self.table[destination])
+			if(len(self.table[v]) == 0):
+				del(self.table[v])
+
+
+		#del(self.table[destination][next_hop])	#RESOLVER PROBLEMA DA TABELA !!!!!!!!!!
+
+		
 		table_lock.release()
 	'''------------------------------------------------------------------------------------- '''		
 
@@ -195,10 +266,11 @@ class dv_Table():
 				if float(i[1]) < min_cost:
 					min_nexthop = i[0]
 					min_cost = float((i[1]))
-					destination = v		
+					destination = v
+		
 
 			next_hop[destination] = min_nexthop
-		return next_hop		
+		return next_hop			
 			
 	
 	'''------------------------------------------------------------------------------------- '''
@@ -215,6 +287,7 @@ class parser_Inputfile():
 			lineList = line.split()
 			if lineList[0] == 'add':
 				self.router.add_link(lineList[1],lineList[2])
+
 				self.router.table.add_table(lineList[1],lineList[1],lineList[2])	#introdução dos vizinhos na tabela de roteamento
 			elif lineList[0] == 'del':
 				self.router.del_link(lineList[1])
@@ -259,13 +332,21 @@ R4.Run()
 R5.Run()
 R6.Run()
 
-time.sleep(5)
+time.sleep(15)
+'''
+print(R1.table.distance_vector_algorithm())
+'''
 
-#print(R1.table.distance_vector_algorithm())
 
 print("tabela 1-----------------")
 print(R1.table.table)
 
+
+R1.table.remove_table('127.0.0.2')
+
+print("tabela 1-----------------")
+print(R1.table.table)
+'''
 print("\ntabela 2-----------------")
 print(R2.table.table)
 
@@ -280,7 +361,7 @@ print(R5.table.table)
 
 print("\ntable 6 ------------------")
 print(R6.table.table)
-
+'''
 
 
 
