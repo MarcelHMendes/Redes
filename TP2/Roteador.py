@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+
+
 import socket 
 import json
 import struct
@@ -5,6 +8,7 @@ import time
 import threading
 import numpy as np
 import random
+import sys
 
 table_lock = threading.Lock() #Lock de acesso da tabela de rotemaneto 
 valid_lock = threading.Lock() #Lock de acesso a lista de rotas válidas
@@ -98,7 +102,7 @@ class Router():
 
 	'''--------------------------------------------------------------------------------- '''
 	def up_valid(self, neighbor):
-		''' Renova as rotas invalidas, setando o valor do ttl para 0 '''
+		''' Renova as rotas invalidas, setando o valor do 'ttl' para 0 '''
 		valid_lock.acquire()
 		self.listValid[neighbor] = 0
 		valid_lock.release()
@@ -108,7 +112,7 @@ class Router():
 		del self.listValid[neighbor]
 
 	def add_valid(self, neighbor):
-		'''Adiciona uma rrota valida '''
+		'''Adiciona uma rota valida '''
 		self.listValid[neighbor] = 0
 
 	def add_link(self, cost, neighbor):
@@ -162,8 +166,8 @@ class Router():
 			self.send_Message(new_msg, list_next_hops[n])
 
 	def h_data(self,msg):
-
 		'''Trata a msg de dados,caso self.ip for o destino a função imprime o payload caso contrario encaminha a msg '''
+
 		if msg['destination'] == self.ip:
 			payload = json.dumps(msg)
 			print(payload)
@@ -174,8 +178,7 @@ class Router():
 				self.send_Message(msg, list_next_hops[n])
 
 	def h_update(self,msg):
- 		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
-
+		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
 		for destination in msg['distances']:
 			for next_hop in msg['distances'][destination]:
 				if next_hop != self.ip and destination != self.ip:
@@ -185,6 +188,7 @@ class Router():
 
 		
 	def get_costs(self, source): 
+		''' Retorna o custo de determinado enlace do roteador com um determinado vizinho '''
 		cost = self.listAdj[source]
 		return cost
 
@@ -232,6 +236,7 @@ class dv_Table():
 	'''------------------------------------------------------------------------------------- '''
 	
 	def add_table(self,destination, next_hop,cost):
+		'''Adciona entrada na tabela de roteamento '''
 		table_lock.acquire()
 		if destination not in self.table:
 			self.table[destination] = {}
@@ -240,6 +245,7 @@ class dv_Table():
 		table_lock.release()
 
 	def remove_table(self,next_hop):
+		'''Remove todas as entradas que possuiem o próximo salto = next_hop, ou seja, as rotas que não estão mais válidas '''
 		table_lock.acquire()
 		del_list = []
 		for v,d in list(self.table.items()):
@@ -259,6 +265,8 @@ class dv_Table():
 
 	'''------------------------------------------------------------------------------------- '''
 	def distance_vector_algorithm(self):
+		'''Trecho de código que faz o processo de identificação de menor rota para cada destino '''
+
 		next_hop = {}
 		for v,d in list(self.table.items()):
 			min_cost = 2**30
@@ -268,7 +276,6 @@ class dv_Table():
 					min_cost = float((i[1]))
 					destination = v
 		
-
 			next_hop[destination] = min_nexthop
 		return next_hop			
 			
@@ -297,6 +304,19 @@ class parser_Inputfile():
 				print('--error--')	
 			
 
+def main():
+	count = len(sys.argv)
+	R = Router(sys.argv[1],55151,3)
+	R.initSocket()
+	P = parser_Inputfile(str(sys.argv[2]),R)
+	P.parse()
+	R.Run()
+	time.sleep(100)
+	print("tabela 1-----------------")
+	print(R.table.table)
+
+main()
+'''
 R1 = Router('127.0.0.1','A',5151,5)
 R2 = Router('127.0.0.2','B',5151,5)
 R3 = Router('127.0.0.3','C',5151,5)
@@ -334,18 +354,9 @@ R6.Run()
 
 time.sleep(15)
 '''
-print(R1.table.distance_vector_algorithm())
-'''
 
 
-print("tabela 1-----------------")
-print(R1.table.table)
 
-
-R1.table.remove_table('127.0.0.2')
-
-print("tabela 1-----------------")
-print(R1.table.table)
 '''
 print("\ntabela 2-----------------")
 print(R2.table.table)
