@@ -376,7 +376,7 @@ def main():
 	#time.sleep(100)
 	print("tabela 1-----------------")
 	print(R.table.table)
-
+	signal.pause()
 main()
 
 
