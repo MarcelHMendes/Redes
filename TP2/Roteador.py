@@ -9,6 +9,7 @@ import threading
 import numpy as np
 import random
 import sys
+import signal
 
 table_lock = threading.Lock() #Lock de acesso da tabela de rotemaneto 
 valid_lock = threading.Lock() #Lock de acesso a lista de rotas válidas
@@ -61,6 +62,20 @@ class Router():
 	'''----------------------------------------------------------------------------------- '''	
 
 	'''----------------------------------------------------------------------------------- '''
+
+	def entry_mode(self, startup = False):
+		if startup :
+			entry_source = open(self.startup)
+		else:
+			entry_source = sys.stdin
+
+
+
+
+
+	'''------------------------------------------------------------------------------------'''
+
+	'''----------------------------------------------------------------------------------- '''
 	def send_message_update(self):
 		while True:
 			time.sleep(self.period)
@@ -68,6 +83,7 @@ class Router():
 			
 	def recv_Message(self):
 		'''Recebe a mensagem e trata de acordo com seu tipos '''
+		
 		while True:		
 			msg, ip = self.router.recvfrom(2048)
 			msg = json.loads(msg.decode('ascii'))
@@ -81,6 +97,7 @@ class Router():
 		
 	def remove_invalid_routes(self):
 		'''Responsável por remover as rotas que já não estão ativas da tabela de roteamento '''
+
 		while True:
 			invalid = []
 			time.sleep(self.period)
@@ -167,9 +184,12 @@ class Router():
 
 	def h_data(self,msg):
 		'''Trata a msg de dados,caso self.ip for o destino a função imprime o payload caso contrario encaminha a msg '''
-
 		if msg['destination'] == self.ip:
-			payload = json.dumps(msg)
+			msg = json.loads(msg)
+			payload = '{"type": "' + msg['type'] + '", '
+			payload += '"source": "' + msg['source'] + '", '
+			payload += '"destination": "' + msg['destination'] + '", '
+			payload += '"hops": ' + str(msg['hops']).replace('\'', '"') + '}'
 			print(payload)
 		else:
 			list_next_hops = self.table.distance_vector_algorithm()
@@ -179,12 +199,15 @@ class Router():
 
 	def h_update(self,msg):
 		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
-		for destination in msg['distances']:
-			for next_hop in msg['distances'][destination]:
-				if next_hop != self.ip and destination != self.ip:
-					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
-					self.table.add_table(destination,msg['source'],cost)
-					self.up_valid(msg['source'])
+		if msg['origin'] == self.ip:
+			pass
+		else:	
+			for destination in msg['distances']:
+				for next_hop in msg['distances'][destination]:
+					if next_hop != self.ip and destination != self.ip:
+						cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
+						self.table.add_table(destination,msg['source'],cost)
+						self.up_valid(msg['source'])
 
 		
 	def get_costs(self, source): 
@@ -199,6 +222,7 @@ class Router():
 	def msg_update(self, source, destination, distances):
 		msg = {
 			"type": "update",
+			"origin": self.ip, #Adicionado para evitar ciclos
 			"source": source,
 			"destination": destination,
 			"distances": distances
@@ -256,10 +280,6 @@ class dv_Table():
 			if(len(self.table[v]) == 0):
 				del(self.table[v])
 
-
-		#del(self.table[destination][next_hop])	#RESOLVER PROBLEMA DA TABELA !!!!!!!!!!
-
-		
 		table_lock.release()
 	'''------------------------------------------------------------------------------------- '''		
 
@@ -285,94 +305,79 @@ class dv_Table():
 
 class parser_Inputfile():
 	def __init__(self, file, router):
-		self.input = file				
+		self.startup = file				
 		self.router = router
-	def parse(self):		
-		f = open(self.input, 'r')
-		text = f.readlines()
-		for line in text:
-			lineList = line.split()
-			if lineList[0] == 'add':
-				self.router.add_link(lineList[1],lineList[2])
 
-				self.router.table.add_table(lineList[1],lineList[1],lineList[2])	#introdução dos vizinhos na tabela de roteamento
-			elif lineList[0] == 'del':
-				self.router.del_link(lineList[1])
-			elif lineList[0] == 'trace':
-				self.router.trace(lineList[1])
-			else:
-				print('--error--')	
+	def parse(self):	
+		if self.startup != '':
+			commands = open(self.startup, 'r')
+		else:
+			commands = sys.stdin
+
+		text = commands.readlines()
+		
+		while True:
+			for line in text:
+				lineList = line.split()
+				if lineList[0] == 'add':
+					self.router.add_link(lineList[1],lineList[2])
+					self.router.table.add_table(lineList[1],lineList[1],lineList[2])	#introdução dos vizinhos na tabela de roteamento
+				elif lineList[0] == 'del':
+					self.router.del_link(lineList[1])
+				elif lineList[0] == 'trace':
+					self.router.trace(lineList[1])
+				else:
+					print('--error--')	
 			
+		if self.startup != '':
+			commands.close()		
+
+def handle_entry():
+	contArgs = len(sys.argv)
+	startup = ''
+	period = 1
+	addr = ''
+	
+
+	if contArgs == 3 or contArgs == 4:
+		addr = sys.argv[1]
+		period = sys.argv[2]
+		if contArgs == 4:
+			startup = sys.argv[3]
+	elif contArgs == 5 or contArgs == 7:
+		index_addr = sys.argv.index('--addr')
+		index_period = sys.argv.index('--update-period')
+
+		addr = sys.argv[index_addr + 1]
+		period = sys.argv[index_period + 1]
+
+		if contArgs == 7:
+			index_startup = sys.argv.index('--startup-commands')
+			startup = sys.argv[index_startup + 1]
+		else:
+			print("--error---")
+
+	period = int(period)
+	return addr, period, startup
+
+def signal_handler(sig, frame):
+	sys.exit(0)
+
+
 
 def main():
-	count = len(sys.argv)
-	R = Router(sys.argv[1],55151,3)
+	signal.signal(signal.SIGINT, signal_handler)
+	addr, period, startup = handle_entry()
+	R = Router(addr,55151,period)
 	R.initSocket()
-	P = parser_Inputfile(str(sys.argv[2]),R)
+	P = parser_Inputfile(startup,R)
 	P.parse()
 	R.Run()
-	time.sleep(100)
+	#time.sleep(100)
 	print("tabela 1-----------------")
 	print(R.table.table)
 
 main()
-'''
-R1 = Router('127.0.0.1','A',5151,5)
-R2 = Router('127.0.0.2','B',5151,5)
-R3 = Router('127.0.0.3','C',5151,5)
-R4 = Router('127.0.0.4','D',5151,5)
-R5 = Router('127.0.0.5','E',5151,5)
-R6 = Router('127.0.0.6','F',5151,5)
-
-R1.initSocket()
-R2.initSocket()
-R3.initSocket()
-R4.initSocket()
-R5.initSocket()
-R6.initSocket()
-
-P1 = parser_Inputfile("entrada.txt",R1)
-P1.parse()
-P2 = parser_Inputfile("entrada2.txt",R2)
-P2.parse()
-P3 = parser_Inputfile("entrada3.txt",R3)
-P3.parse()
-P4 = parser_Inputfile("entrada4.txt", R4)
-P4.parse()
-P5 = parser_Inputfile("entrada5.txt",R5) 
-P5.parse()
-P6 = parser_Inputfile("entrada6.txt",R6)
-P6.parse()
-
-
-R1.Run()
-R2.Run()
-R3.Run()
-R4.Run()
-R5.Run()
-R6.Run()
-
-time.sleep(15)
-'''
-
-
-
-'''
-print("\ntabela 2-----------------")
-print(R2.table.table)
-
-print("\ntabela 3-----------------")
-print(R3.table.table)
-
-print("\ntabela 4------------------")
-print(R4.table.table)
-
-print("\ntable 5-------------------")
-print(R5.table.table)
-
-print("\ntable 6 ------------------")
-print(R6.table.table)
-'''
 
 
 
