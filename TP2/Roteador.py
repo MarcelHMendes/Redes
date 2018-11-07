@@ -70,9 +70,6 @@ class Router():
 			entry_source = sys.stdin
 
 
-
-
-
 	'''------------------------------------------------------------------------------------'''
 
 	'''----------------------------------------------------------------------------------- '''
@@ -362,8 +359,6 @@ def handle_entry():
 
 def signal_handler(sig, frame):
 	sys.exit(0)
-
-
 
 def main():
 	signal.signal(signal.SIGINT, signal_handler)
