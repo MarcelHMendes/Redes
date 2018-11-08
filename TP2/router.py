@@ -202,15 +202,15 @@ class Router():
 
 	def h_update(self,msg):
 		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
-		'''if msg['origin'] == self.ip:
+		if msg['origin'] == self.ip:
 			pass
-		else:'''	
-		for destination in msg['distances']:
-			for next_hop in msg['distances'][destination]:
-				if next_hop != self.ip and destination != self.ip:
-					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
-					self.table.add_table(destination,msg['source'],cost)
-					self.up_valid(msg['source'])
+		else:	
+			for destination in msg['distances']:
+				for next_hop in msg['distances'][destination]:
+					if next_hop != self.ip and destination != self.ip:
+						cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
+						self.table.add_table(destination,msg['source'],cost)
+						self.up_valid(msg['source'])
 
 		
 	def get_costs(self, source): 
@@ -227,7 +227,7 @@ class Router():
 	def msg_update(self, source, destination, distances):
 		msg = {
 			"type": "update",
-			#"origin": self.ip, #Adicionado para evitar ciclos
+			"origin": self.ip, #Adicionado para evitar ciclos
 			"source": source,
 			"destination": destination,
 			"distances": distances
@@ -327,15 +327,22 @@ class dv_Table():
 		'''Trecho de código que faz o processo de identificação de menor rota para cada destino '''
 
 		next_hop = {}
+		potencial_min = [] #Balannceamento de carga  
 		for v,d in list(self.table.items()):
 			min_cost = 2**30
 			for i in list(d.items()):
 				if float(i[1]) < min_cost:
-					min_nexthop = i[0]
 					min_cost = float((i[1]))
-					destination = v
-		
+
+			for i in list(d.items()):
+				if float(i[1]) == min_cost:
+					min_nexthop = i[0]
+					potencial_min.append(min_nexthop)
+					destination = v		
+
+			min_nexthop = random.choice(potencial_min)					
 			next_hop[destination] = min_nexthop
+			
 		return next_hop			
 			
 	
