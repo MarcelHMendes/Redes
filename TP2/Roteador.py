@@ -215,9 +215,11 @@ class Router():
 		
 	def get_costs(self, source): 
 		''' Retorna o custo de determinado enlace do roteador com um determinado vizinho '''
-		cost = self.listAdj[source]
-		return cost
-
+		if source in self.listAdj:
+			cost = self.listAdj[source]
+			return cost
+		else:
+			return 2**30
 	'''-----------------------------------------------------------------------------------'''
  
 	'''------------------------------------------------------------------------------------'''
