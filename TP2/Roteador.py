@@ -59,6 +59,9 @@ class Router():
 		send_t = threading.Thread(target = self.send_message_update)
 		send_t.daemon = True
 		send_t.start()
+
+		self.command_line()
+		
 	'''----------------------------------------------------------------------------------- '''	
 
 	'''----------------------------------------------------------------------------------- '''
@@ -141,7 +144,7 @@ class Router():
 	'''---------------------------------------------------------------------------------- '''	
 	def trace(self,destination):
 		'''Envia a msg de traceroute '''
-		msg = self.msg_trace(self.ip,destination,self.table.table)
+		msg = self.msg_trace(self.ip,destination)
 		list_next_hops = self.table.distance_vector_algorithm()
 		if destination in list_next_hops:
 			self.send_Message(msg,list_next_hops[destination])
@@ -169,9 +172,12 @@ class Router():
 
 		list_next_hops = self.table.distance_vector_algorithm()
 		if msg['destination'] != self.ip:
-			msg['hops'].append(self.ip)
+			content = msg['hops']
+			content += self.ip + ','
+			msg['hops'] = content
 			if msg['destination'] in list_next_hops:
 				n = msg['destination']
+				msg = json.dumps(msg).encode('ascii')
 				self.send_Message(msg,list_next_hops[n])
 		else: 
 			payload = json.dumps(msg)
@@ -182,29 +188,29 @@ class Router():
 	def h_data(self,msg):
 		'''Trata a msg de dados,caso self.ip for o destino a função imprime o payload caso contrario encaminha a msg '''
 		if msg['destination'] == self.ip:
-			msg = json.loads(msg)
 			payload = '{"type": "' + msg['type'] + '", '
 			payload += '"source": "' + msg['source'] + '", '
 			payload += '"destination": "' + msg['destination'] + '", '
-			payload += '"hops": ' + str(msg['hops']).replace('\'', '"') + '}'
+			payload += '"payload": ' + str(msg['payload']).replace('\'', '"') + '}'
 			print(payload)
 		else:
 			list_next_hops = self.table.distance_vector_algorithm()
 			if msg['destination'] in list_next_hops:
 				n = msg['destination']
+				msg = json.dumps(msg).encode('ascii')
 				self.send_Message(msg, list_next_hops[n])
 
 	def h_update(self,msg):
 		'''Trata as mensagens de update, adiciona as rotas inexistentes na tabela de roteamento e atualiza as rotas '''
-		if msg['origin'] == self.ip:
+		'''if msg['origin'] == self.ip:
 			pass
-		else:	
-			for destination in msg['distances']:
-				for next_hop in msg['distances'][destination]:
-					if next_hop != self.ip and destination != self.ip:
-						cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
-						self.table.add_table(destination,msg['source'],cost)
-						self.up_valid(msg['source'])
+		else:'''	
+		for destination in msg['distances']:
+			for next_hop in msg['distances'][destination]:
+				if next_hop != self.ip and destination != self.ip:
+					cost = int(msg['distances'][destination][next_hop]) + int(self.get_costs(msg['source']))
+					self.table.add_table(destination,msg['source'],cost)
+					self.up_valid(msg['source'])
 
 		
 	def get_costs(self, source): 
@@ -219,7 +225,7 @@ class Router():
 	def msg_update(self, source, destination, distances):
 		msg = {
 			"type": "update",
-			"origin": self.ip, #Adicionado para evitar ciclos
+			#"origin": self.ip, #Adicionado para evitar ciclos
 			"source": source,
 			"destination": destination,
 			"distances": distances
@@ -227,12 +233,12 @@ class Router():
 
 		return json.dumps(msg).encode('ascii')
 	
-	def msg_trace(self, source, destination, hops):
+	def msg_trace(self, source, destination,hops = ''):
 		msg = {
 			"type": "trace",
 			"source": source,
 			"destination": destination,
-			"hops": hops
+			"hops": hops 
 
 		}
 
@@ -249,6 +255,40 @@ class Router():
 		return json.dumps(msg).encode('ascii')
 
 	'''------------------------------------------------------------------------------------- '''	
+
+	'''-------------------------------------------------------------------------------------'''
+	def command_line(self):
+		command_source = sys.stdin
+
+		command = command_source.readline().split(' ')
+
+		while len(command[0]) > 0:
+			command_t = command[0].strip()
+
+			if command_t == 'add' and len(command) == 3:
+				ip = command[1]
+				weight = float(command[2])
+
+				self.add_link(ip,weight)
+				self.table.add_table(ip,ip,weight)
+			elif command_t == 'del' and len(command) == 2:
+				ip = command[1].strip()
+
+				self.del_link(ip)
+			elif command_t == 'trace' and len(command) == 2:
+				ip = command[1].strip()
+
+				self.trace(ip)
+			elif command_t == 'exit' and len(command) == 1:
+				return
+			else:
+				print('--error---')
+
+			command = command_source.readline().split(' ')	
+
+
+	'''-------------------------------------------------------------------------------------'''
+
 
 class dv_Table():
 	def __init__(self):
@@ -308,12 +348,10 @@ class parser_Inputfile():
 	def parse(self):	
 		if self.startup != '':
 			commands = open(self.startup, 'r')
-		else:
-			commands = sys.stdin
-
-		text = commands.readlines()
 		
-		while True:
+			text = commands.readlines()
+			
+			#while True:
 			for line in text:
 				lineList = line.split()
 				if lineList[0] == 'add':
@@ -325,9 +363,11 @@ class parser_Inputfile():
 					self.router.trace(lineList[1])
 				else:
 					print('--error--')	
-			
-		if self.startup != '':
+				
 			commands.close()		
+
+
+
 
 def handle_entry():
 	contArgs = len(sys.argv)
@@ -358,6 +398,7 @@ def handle_entry():
 	return addr, period, startup
 
 def signal_handler(sig, frame):
+	print('bye')
 	sys.exit(0)
 
 def main():
@@ -368,9 +409,9 @@ def main():
 	P = parser_Inputfile(startup,R)
 	P.parse()
 	R.Run()
-	#time.sleep(100)
-	print("tabela 1-----------------")
-	print(R.table.table)
+	#time.sleep(20)
+	#print("tabela 1-----------------")
+	#print(R.table.table)
 	signal.pause()
 main()
 
