@@ -20,31 +20,42 @@ def send_request(request_header,server_address):
 		if not recv:
 			break
 		response += recv.decode()
-
-	status = response.split(' ')	
-	if int(status[1]) != 200:
-		return False 	
-	return True	
+			
 	client_sock.close()
+	return response
+	
 
 
 def analise_zero(entry_file,ip,port):
 	net_count = 1
 	net_id = str(net_count)
 	server_address = (ip,port)
+	name_dict = {}
 
-	try:
-		while True:
-			request_header_net = 'GET /api/netname/' + net_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n' 
-			print(request_header_net)
-			status = send_request(request_header_net,server_address)
-			if not status:
-				break
-			net_count = net_count + 1
-			net_id = str(net_count)
-	except:
-		print('End of File\n')		
+	#try:
+	while True:
+		request_header_net = 'GET /api/netname/' + net_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n' 
+		print(request_header_net)
+		http_response = send_request(request_header_net,server_address)
+		status = http_response.split(' ')
+		
+		net_count = net_count + 1
+		net_id = str(net_count)
+	
+		data_response = http_response.split('\n')
+		data = data_response[7].strip(' ') 
 
+		name_dict[net_id] = {data} 
+
+		if data == 'EOF':		#consertar limites
+			break
+	
+
+	#except:
+	#	print('[err1] - Não foi possível fazer a requisição\n')		
+
+	
+		
 def main():
 	entry_file = sys.argv[1]
 	if  len(sys.argv) == 3:
@@ -54,9 +65,7 @@ def main():
 	ip = entry[0]
 	port = int(entry[1])
 
-	server_address = (ip, port)
-
-
+	
 	analise_zero(entry_file,ip,port)
 
 if __name__ == '__main__':

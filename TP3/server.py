@@ -50,11 +50,13 @@ def show_json(ix_id):
 def showjson_net(net_id):
 	net_id = int(net_id) + 1
 	log_response = 'End of file'
-	try:
+	
+	if net_id < len(net_data['data']):	#testar limites
 		data = {"data": net_data['data'][net_id]['name']}
 		return jsonify(data)
-	except:
-		request_finished.connect(app)
+	else:
+		msg = '\nEOF\n'
+		return msg
 	#verificar net id
 if __name__ == '__main__':
 	loadData()
