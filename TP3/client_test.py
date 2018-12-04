@@ -32,8 +32,7 @@ def analise_zero(entry_file,ip,port):
 	server_address = (ip,port)
 	name_dict = {}
 
-	#try:
-	while True:
+	'''while True:
 		request_header_net = 'GET /api/netname/' + net_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n' 
 		print(request_header_net)
 		http_response = send_request(request_header_net,server_address)
@@ -49,12 +48,27 @@ def analise_zero(entry_file,ip,port):
 
 		if data == 'EOF':		#consertar limites
 			break
+	'''
+	#----fim while--------------#	
 	
 
-	#except:
-	#	print('[err1] - Não foi possível fazer a requisição\n')		
-
+	ix_count = 2
+	ix_id = str(ix_count)
 	
+	request_header_ixnets = 'GET /api/ixnets/' + ix_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n'
+	print(request_header_ixnets)
+	http_response = send_request(request_header_ixnets, server_address)
+
+	take_off_header = http_response.split('"data":')
+	take_off_header[1] = take_off_header[1].strip('\n}\n\'')
+
+	str_list = take_off_header[1]
+	str_list = str_list.replace('[','').replace(']','').replace('\n','')
+	str_list = str_list.replace(' ','')
+	str_list = str_list.split(',')
+
+	print(str_list)	
+
 		
 def main():
 	entry_file = sys.argv[1]
@@ -77,3 +91,7 @@ if __name__ == '__main__':
 
 
 
+'''request_header_ix = 'GET /api/ix\rHTTP/1.1\r\nHost:' + entry_file + '\r\n\n'		
+	http_response = send_request(request_header_ix, server_address)
+	print(http_response)'''
+		
