@@ -24,17 +24,16 @@ def send_request(request_header,server_address):
 	client_sock.close()
 	return response
 	
-
-
-def handle_data(entry_file,ip,port):
+def handle_net_names(entry_file,ip,port):
 	net_count = 1
 	net_id = str(net_count)
 	server_address = (ip,port)
 	name_dict = {}
 
-	'''while True:
+
+	while True:
 		request_header_net = 'GET /api/netname/' + net_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n' 
-		print(request_header_net)
+	
 		http_response = send_request(request_header_net,server_address)
 		status = http_response.split(' ')
 		
@@ -48,11 +47,17 @@ def handle_data(entry_file,ip,port):
 
 		if data == 'EOF':		#consertar limites
 			break
-	'''
+
 	#----fim while--------------#	
 	
+	return name_dict
+	
 
-	id_ix_list = []
+
+def handle_ix_objects(entry_file,ip,port):
+
+	server_address = (ip,port)
+
 	request_header_ix = 'GET /api/ix\rHTTP/1.1\r\nHost:' + entry_file + '\r\n\n'		
 	http_response = send_request(request_header_ix, server_address)
 		
@@ -67,9 +72,21 @@ def handle_data(entry_file,ip,port):
 	
 	data_ix = json.loads(data_ix)
 	
-	print(data_ix["data"][2])
+	return data_ix
 	
+	'''forma de acesso data_ix["data"][i], i: numero correspondente ao ix'''
 
+
+
+
+def handle_data(entry_file,ip,port):
+	
+	net_names = handle_net_names(entry_file, ip, port)
+
+	ix_objects = handle_ix_objects(entry_file, ip, port)
+
+	print(net_names)
+	print(ix_objects)
 			
 
 	#import id_ix OK:
@@ -102,7 +119,7 @@ def main():
 	port = int(entry[1])
 
 	
-	analise_zero(entry_file,ip,port)
+	handle_data(entry_file,ip,port)
 
 if __name__ == '__main__':
 	main()
