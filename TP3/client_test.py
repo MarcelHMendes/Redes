@@ -26,7 +26,7 @@ def send_request(request_header,server_address):
 	
 
 
-def analise_zero(entry_file,ip,port):
+def handle_data(entry_file,ip,port):
 	net_count = 1
 	net_id = str(net_count)
 	server_address = (ip,port)
@@ -52,9 +52,31 @@ def analise_zero(entry_file,ip,port):
 	#----fim while--------------#	
 	
 
+	id_ix_list = []
+	request_header_ix = 'GET /api/ix\rHTTP/1.1\r\nHost:' + entry_file + '\r\n\n'		
+	http_response = send_request(request_header_ix, server_address)
+		
+
+	take_off_header = http_response.split('"data":')
+	take_off_footer = take_off_header[1].split('"meta":')
+	
+	take_off_footer[0] = take_off_footer[0].replace('[','').replace('],','').replace('\n','').replace(' ','')
+	string = take_off_footer[0]
+
+	data_ix = "{" + '"data": [' + string +"] }"
+	
+	data_ix = json.loads(data_ix)
+	
+	print(data_ix["data"][2])
+	
+
+			
+
+	#import id_ix OK:
+	'''			
 	ix_count = 2
 	ix_id = str(ix_count)
-	
+		
 	request_header_ixnets = 'GET /api/ixnets/' + ix_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n'
 	print(request_header_ixnets)
 	http_response = send_request(request_header_ixnets, server_address)
@@ -66,10 +88,10 @@ def analise_zero(entry_file,ip,port):
 	str_list = str_list.replace('[','').replace(']','').replace('\n','')
 	str_list = str_list.replace(' ','')
 	str_list = str_list.split(',')
-
-	print(str_list)	
-
+	'''
+		 
 		
+
 def main():
 	entry_file = sys.argv[1]
 	if  len(sys.argv) == 3:
@@ -90,8 +112,3 @@ if __name__ == '__main__':
 
 
 
-
-'''request_header_ix = 'GET /api/ix\rHTTP/1.1\r\nHost:' + entry_file + '\r\n\n'		
-	http_response = send_request(request_header_ix, server_address)
-	print(http_response)'''
-		
