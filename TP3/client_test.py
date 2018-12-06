@@ -8,6 +8,7 @@ import socket, sys, json
 
 
 def send_request(request_header,server_address):
+
 	client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client_sock.connect(server_address)
 
@@ -25,6 +26,7 @@ def send_request(request_header,server_address):
 	return response
 	
 def handle_net_names(entry_file,ip,port):
+
 	net_count = 1
 	net_id = str(net_count)
 	server_address = (ip,port)
@@ -77,37 +79,54 @@ def handle_ix_objects(entry_file,ip,port):
 	'''forma de acesso data_ix["data"][i], i: numero correspondente ao ix'''
 
 
+def handle_ixnets(entry_file,ip,port):
+	server_address = (ip,port)
+
+	ix_net = []		
+	ix_count = 1
+	ix_id = str(ix_count)
+
+	ixnets = {}
+
+	for i in ix_objects["data"]:
+		ix_id = str(i["id"])
+
+		request_header_ixnets = 'GET /api/ixnets/' + ix_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n'
+		print(request_header_ixnets)
+		http_response = send_request(request_header_ixnets, server_address)
+
+		take_off_header = http_response.split('"data":')
+		take_off_header[1] = take_off_header[1].strip('\n}\n\'')
+
+		str_list = take_off_header[1]
+		str_list = str_list.replace('[','').replace(']','').replace('\n','')
+		str_list = str_list.replace(' ','')
+		str_list = str_list.split(',')
+
+
+		ixnets[ix_id] = {str(str_list)} 	
+
+	return ixnets	
 
 
 def handle_data(entry_file,ip,port):
-	
+	global net_names
+	global ix_objects
+	global ix_nets
+
 	net_names = handle_net_names(entry_file, ip, port)
 
 	ix_objects = handle_ix_objects(entry_file, ip, port)
 
-	print(net_names)
-	print(ix_objects)
+	ix_nets = handle_ixnets(entry_file,ip,port) 
+	
+	#print(net_names)
+	#print(ix_objects)
 			
 
-	#import id_ix OK:
-	'''			
-	ix_count = 2
-	ix_id = str(ix_count)
-		
-	request_header_ixnets = 'GET /api/ixnets/' + ix_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n'
-	print(request_header_ixnets)
-	http_response = send_request(request_header_ixnets, server_address)
+	
 
-	take_off_header = http_response.split('"data":')
-	take_off_header[1] = take_off_header[1].strip('\n}\n\'')
-
-	str_list = take_off_header[1]
-	str_list = str_list.replace('[','').replace(']','').replace('\n','')
-	str_list = str_list.replace(' ','')
-	str_list = str_list.split(',')
-	'''
-		 
-		
+	print(ix_nets['2'])	
 
 def main():
 	entry_file = sys.argv[1]
