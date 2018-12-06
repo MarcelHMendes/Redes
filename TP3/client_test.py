@@ -92,7 +92,6 @@ def handle_ixnets(entry_file,ip,port):
 		ix_id = str(i["id"])
 
 		request_header_ixnets = 'GET /api/ixnets/' + ix_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n'
-		print(request_header_ixnets)
 		http_response = send_request(request_header_ixnets, server_address)
 
 		take_off_header = http_response.split('"data":')
@@ -113,32 +112,42 @@ def handle_data(entry_file,ip,port):
 	global net_names
 	global ix_objects
 	global ix_nets
-
+	
 	net_names = handle_net_names(entry_file, ip, port)
 
 	ix_objects = handle_ix_objects(entry_file, ip, port)
 
-	ix_nets = handle_ixnets(entry_file,ip,port) 
+	ix_nets = handle_ixnets(entry_file, ip, port) 
 	
-	#print(net_names)
-	#print(ix_objects)
-			
-
+def analysis_one():
 	
+	for i in ix_objects["data"]:
+		print(i["id"], end = '\t')
+		print(i["name_long"], end = '\t')
 
-	print(ix_nets['2'])	
+
+		string = str(ix_nets[str(i["id"])])
+		string = string.replace('{"[','').replace(']"}','')
+		string = string.split(',')
+		string = list(set(string))
+		print(len(string))
+
+
+def analysis_zero():
+	pass
 
 def main():
 	entry_file = sys.argv[1]
 	if  len(sys.argv) == 3:
-		opt = sys.argv[2]
+		opt = int(sys.argv[2])
 
 	entry = entry_file.split(':')
 	ip = entry[0]
 	port = int(entry[1])
 
-	
 	handle_data(entry_file,ip,port)
+
+	analysis_one()
 
 if __name__ == '__main__':
 	main()
