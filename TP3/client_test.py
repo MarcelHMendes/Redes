@@ -121,20 +121,39 @@ def handle_data(entry_file,ip,port):
 	
 def analysis_one():
 	
+	output_one = open('analise_um.tsv','w')
+
 	for i in ix_objects["data"]:
-		print(i["id"], end = '\t')
-		print(i["name_long"], end = '\t')
+		print(i["id"], end = '\t\t', file = output_one)
+		print(i["name_long"], end = '\t', file = output_one)
 
 
 		string = str(ix_nets[str(i["id"])])
-		string = string.replace('{"[','').replace(']"}','')
+		string = string.replace('{\'"data": ','').replace(']"}','')
 		string = string.split(',')
 		string = list(set(string))
-		print(len(string))
+		print(len(string), end = '\n',file = output_one)
 
 
 def analysis_zero():
-	pass
+	names = {}
+
+	for i in ix_objects["data"]:
+		string = str(ix_nets[str(i["id"])])
+		string = string.replace('{\'"data": ','').replace(']"}','')
+		string = string.split(',')
+		string = list(set(string))
+
+	for i in net_names:
+		names[i] = str(net_names[i])
+		names[i] = names[i].replace('{\'"data":','').replace('}','')
+		names[i] = names[i].replace('\'','')
+		print(i , end= '\t')	
+		print(names[i])
+
+		#for k ... 
+
+
 
 def main():
 	entry_file = sys.argv[1]
@@ -147,7 +166,9 @@ def main():
 
 	handle_data(entry_file,ip,port)
 
-	analysis_one()
+	#analysis_one()
+
+	analysis_zero()
 
 if __name__ == '__main__':
 	main()
