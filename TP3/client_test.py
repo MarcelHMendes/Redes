@@ -66,7 +66,7 @@ def handle_ix_objects(entry_file,ip,port):
 	take_off_header = http_response.split('"data":')
 	take_off_footer = take_off_header[1].split('"meta":')
 	
-	take_off_footer[0] = take_off_footer[0].replace('[','').replace('],','').replace('\n','')#.replace(' ','') #bug: ultimo replace
+	take_off_footer[0] = take_off_footer[0].replace('[','').replace('],','').replace('\n','')#.replace(' ','') : bug
 	string = take_off_footer[0]
 
 	data_ix = "{" + '"data": [' + string +"] }"
@@ -123,7 +123,7 @@ def analysis_one():
 	output_one = open('analise_um.tsv','w')
 
 	for i in ix_objects["data"]:
-		print(i["id"], end = '\t\t', file = output_one)
+		print(i["id"], end = '\t', file = output_one)
 		print(i["name_long"], end = '\t', file = output_one)
 
 
@@ -136,14 +136,18 @@ def analysis_one():
 
 
 def analysis_zero():
+	
+	output_zero = open('analise_zero.tsv','w')
+
 	names = {}
 	count_ixp = 0
+
 	for i in net_names:
 		names[i] = str(net_names[i])
 		names[i] = names[i].replace('{\'"data":','').replace('}','')
 		names[i] = names[i].replace('\'','')
-		print(i , end= '\t')	
-		print(names[i], end= '\t')
+		print(i , end= '\t', file = output_zero)	
+		print(names[i], end= '\t', file = output_zero )
 
 		for k in ix_objects["data"]:
 			string = str(ix_nets[str(k["id"])])
@@ -154,33 +158,17 @@ def analysis_zero():
 			string = list(set(string))
 			if str(i) in string:
 				count_ixp = count_ixp + 1
-		print(count_ixp)
+		print(count_ixp, file = output_zero )
 		count_ixp = 0
-
-
-
-def test():
-	print(ix_objects)
-
-	for i in ix_objects["data"]:
-		#print(i["id"], end = '\t\t', file = output_one)
-		print(i["name_long"])
-
-
-		string = str(ix_nets[str(i["id"])])
-		string = string.replace('{\'"data": ','').replace(']"}','').replace('{"[','')
-		string = string.replace('\'','')
-		string = string.split(',')
-		string = list(set(string))
-		#print(len(string), end = '\n',file = output_one)
-		print(string)
-
 
 
 def main():
 	entry_file = sys.argv[1]
 	if  len(sys.argv) == 3:
 		opt = int(sys.argv[2])
+	else:
+		print('err[0] escolha a analise 1 ou 2')
+		return
 
 	entry = entry_file.split(':')
 	ip = entry[0]
@@ -188,11 +176,11 @@ def main():
 
 	handle_data(entry_file,ip,port)
 
-	analysis_one()
-
-	#analysis_zero()
-
-	#test()
+	if opt == 1:
+		analysis_one()
+	elif opt == 0:	
+		analysis_zero()
+		
 
 if __name__ == '__main__':
 	main()

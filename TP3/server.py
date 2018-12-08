@@ -1,31 +1,34 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
+import os,sys
 import json
 from flask import Flask, jsonify, request, render_template, url_for, request_finished
-
+import logging
 
 def loadData():
 	global net_data
 	global ix_data
 	global nixlan_data
 	
-	PATH_net = os.path.realpath(os.path.dirname(__file__))
-	json_path = os.path.join(PATH_net, "files", "net.json")
+	
+	json_path = sys.argv[1]
 	net_data = json.load(open(json_path))
 
-	PATH_ix = os.path.realpath(os.path.dirname(__file__))
-	json_path = os.path.join(PATH_ix , "files", "ix.json")
+	
+	json_path = sys.argv[2]
 	ix_data = json.load(open(json_path))
 
-	PATH_nilan = os.path.realpath(os.path.dirname(__file__))
-	json_path = os.path.join(PATH_nilan, "files", "netixlan.json")
+	
+	json_path = sys.argv[3]
 	nixlan_data = json.load(open(json_path))
 
-	#ler arquivos da linha de comando
 
 app = Flask(__name__)
+
+log = logging.getLogger('werkzeug')
+log.disabled = True
+app.logger.disabled = True
 
 '''@app.route("/", methods = ['GET','POST'])
 def hello():
@@ -48,7 +51,7 @@ def show_json(ix_id):
 
 @app.route('/api/netname/<net_id>', methods= ['GET'])
 def showjson_net(net_id):
-	net_id = int(net_id) + 1
+	net_id = int(net_id) 
 	log_response = 'End of file'
 	
 	if net_id < len(net_data['data']):	#testar limites

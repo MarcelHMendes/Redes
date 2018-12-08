@@ -9,6 +9,11 @@ import socket, sys, json
 
 def send_request(request_header,server_address):
 
+	'''Responsavel por estabelecer a conexao e receber os dados
+		@return: raw-bytes	
+
+	'''
+
 	client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	client_sock.connect(server_address)
 
@@ -26,6 +31,15 @@ def send_request(request_header,server_address):
 	return response
 	
 def handle_net_names(entry_file,ip,port):
+
+	'''Responsavel por tratar os dados dos nomes das redes 
+		@return: dict
+		@server_adress: tuple
+		@net_id: string
+		@name_dict: dict
+		@data_response: string
+
+	'''
 
 	net_count = 1
 	net_id = str(net_count)
@@ -56,6 +70,14 @@ def handle_net_names(entry_file,ip,port):
 
 
 def handle_ix_objects(entry_file,ip,port):
+	
+	'''Responsavel por lidar com os objetos ix's 
+		@return: json
+		@request_header: string
+		@http_response: raw bytes
+		@take_off_footer: string
+		@take_off_header: string
+	'''
 
 	server_address = (ip,port)
 
@@ -79,6 +101,14 @@ def handle_ix_objects(entry_file,ip,port):
 
 
 def handle_ixnets(entry_file,ip,port):
+	'''Responsavel por tratar os dados da associacao ix_net 
+		@return: dict
+		@request_header: string
+		@http_response: raw bytes
+		@take_off_footer: string
+		@take_off_header: string
+	 '''
+
 	server_address = (ip,port)
 
 	ix_net = []		
@@ -108,6 +138,10 @@ def handle_ixnets(entry_file,ip,port):
 
 
 def handle_data(entry_file,ip,port):
+	
+	'''Responsavel por recolher os dados dos tres endpoints
+	'''
+
 	global net_names
 	global ix_objects
 	global ix_nets
@@ -120,10 +154,15 @@ def handle_data(entry_file,ip,port):
 	
 def analysis_one():
 	
+	'''Responsavel por realizar e imprimir em arquivo a analise um 
+		@string: string
+		@string: list
+	'''
+	
 	output_one = open('analise_um.tsv','w')
 
 	for i in ix_objects["data"]:
-		print(i["id"], end = '\t\t', file = output_one)
+		print(i["id"], end = '\t', file = output_one)
 		print(i["name_long"], end = '\t', file = output_one)
 
 
@@ -136,14 +175,24 @@ def analysis_one():
 
 
 def analysis_zero():
+	
+	'''Responsavel por realizar e imprimir em arquivo a analise zero 
+		@names: dict
+		@string: string
+		@string: list
+	'''
+
+	output_zero = open('analise_zero.tsv','w')
+
 	names = {}
 	count_ixp = 0
+
 	for i in net_names:
 		names[i] = str(net_names[i])
 		names[i] = names[i].replace('{\'"data":','').replace('}','')
 		names[i] = names[i].replace('\'','')
-		print(i , end= '\t')	
-		print(names[i], end= '\t')
+		print(i , end= '\t', file = output_zero)	
+		print(names[i], end= '\t', file = output_zero )
 
 		for k in ix_objects["data"]:
 			string = str(ix_nets[str(k["id"])])
@@ -154,7 +203,7 @@ def analysis_zero():
 			string = list(set(string))
 			if str(i) in string:
 				count_ixp = count_ixp + 1
-		print(count_ixp)
+		print(count_ixp, file = output_zero )
 		count_ixp = 0
 
 
@@ -162,6 +211,9 @@ def main():
 	entry_file = sys.argv[1]
 	if  len(sys.argv) == 3:
 		opt = int(sys.argv[2])
+	else:
+		print('err[0] escolha a analise 1 ou 2')
+		return
 
 	entry = entry_file.split(':')
 	ip = entry[0]
@@ -169,9 +221,11 @@ def main():
 
 	handle_data(entry_file,ip,port)
 
-	analysis_one()
-
-	#analysis_zero()
+	if opt == 1:
+		analysis_one()
+	elif opt == 0:	
+		analysis_zero()
+		
 
 if __name__ == '__main__':
 	main()

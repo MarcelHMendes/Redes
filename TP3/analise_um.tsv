@@ -1,0 +1,678 @@
+1		Equinix Ashburn Exchange	111
+2		Equinix Chicago Exchange	82
+3		Equinix Dallas Exchange	50
+4		Equinix Los Angeles Exchange	41
+5		Equinix San Jose / Bay Area Exchange	63
+7		Equinix Internet Exchange Palo Alto	69
+9		Equinix Internet Exchange Atlanta	9
+10		Equinix Internet Exchange Vienna, VA	2
+11		Equinix Internet Exchange Seattle	14
+12		Equinix Internet Exchange New York	50
+13		Seattle Internet Exchange (MTU 1500)	77
+14		New York International Internet eXchange	66
+15			1
+16			1
+17		Equinix Miami (formerly NOTA)	57
+18		London Internet Exchange Ltd.	211
+20			1
+21		West Australian Internet Exchange (WAIX)	17
+22		Digital Realty Atlanta Internet Exchange	36
+23		Los Angeles International Internet eXchange	22
+24		Toronto Internet Exchange Community	44
+26		Amsterdam Internet Exchange	244
+29		Equinix Internet Exchange Zurich, formerly TIX	28
+30		Japan Internet Exchange Tokyo	39
+31		Deutscher Commercial Internet Exchange	225
+32		San Francisco Internet Exchange	1
+33		CERN Internet eXchange Point	19
+34		Service for French INternet eXchange	29
+35		Milan Internet eXchange	40
+40			7
+41		Free NYIIX Alternative	4
+42		Hong Kong Internet Exchange	62
+43		Taiwan Internet Exchange	4
+44		Manila Internet Exchange	2
+48		Internet Neutral Exchange Association CLG	27
+50		Vienna Internet Exchange	45
+52		Korean Internet Neutral Exchange	25
+53		London Network Access Point	63
+55		Budapest Internet Exchange	13
+58		Free Belgian Internet Exchange	2
+59		Belgian National Internet eXchange	22
+60		SwissIX Internet Exchange	56
+62		Catalunya Neutral Internet Exchange	13
+63		Espana Internet Exchange Lower LAN	29
+64		Neutral Internet Exchange	87
+68		French National Internet Exchange IPv6	2
+69		Lyonix, the Lyon IX	15
+70		Netnod Internet Exchange i Sverige AB	55
+71		Neutral Internet Exchange in the Czech Republic	25
+72		GIGAbit Portuguese Internet eXchange	9
+73		INXS / ECIX-MUC	27
+74		Deutscher Commercial Internet Exchange Hamburg	25
+76		Groningen Internet Exchange	1
+77		Luxemburg Internet Exchange	1
+78		Danish Internet Exchange	16
+81		San Diego NAP	2
+82		Pacific Wave Exchange in Los Angeles and Seattle	9
+83		Norwegian Internet Exchange, NIX1 (location 1)	12
+84		Slovak Internet Exchange	4
+85		Nederlands Duitse Internet Exchange	5
+87		Berlin Commercial Internet Exchange	36
+88		iAdvantage Internet Exchange	5
+89		Madison Internet Exchange	6
+91		European Commercial Internet Exchange Duesseldorf	35
+92		Distributed IX in EDO (former NSPIXP2)	8
+93		Singapore Open Exchange	12
+94		Equinix Sydney Exchange	40
+95		JPNAP Tokyo	32
+96		Warsaw Internet eXchange	1
+97		Auckland Peering Exchange	8
+98		FICIX Helsinki / FICIX2	10
+100		MSK-IX Moscow	29
+105		Pipe Networks MLPA Sydney	14
+107		MSK-IX Saint-Petersburg (former SPB-IX)	2
+110		PIPE Networks Brisbane	7
+111		PIPE Networks Melbourne	6
+112		PIPE Networks Adelaide	3
+113		PIPE Networks Canberra	1
+114		PIPE Networks Hobart	1
+115		Consorzio Top-IX	23
+119		Equinix Sao Paulo Exchange	12
+121		Nautilus Mediterranean Exchange Point	11
+123		KleyReX Internet Exchange	18
+125		Equinix Hong Kong	39
+126		BroadBand Internet eXchange Tokyo	32
+127		Oregon-IX	1
+128		Stockholm Open Local Internet Exchange	11
+129		Johannesburg Internet Exchange	9
+135		Nuernberger Internet Exchange	5
+137		Internet Exchange of Puerto Rico	1
+141		Tampa Internet Exchange	1
+142		CoreSite - Any2 Los Angeles	84
+145		JPNAP Osaka	15
+146		Gothenburg Internet Exchange	1
+148			1
+149		Malta Internet Exchange	1
+151		The Big Apple Peering Exchange	2
+154		Bayan Telecommunications Internet and Gaming Exchange	3
+155		San Francisco Metropolitan Internet Exchange	13
+158		Equinix Singapore Exchange	71
+165		Northwest Access Exchange, Inc.	22
+167		Equinix Tokyo	21
+170		OpenCarrier eG Member IX Duesseldorf 	3
+171		IX.br (PTT.br) São Paulo	30
+172		Stockholm Internet eXchange	16
+173		IX.br (PTT.br) Porto Alegre	3
+174		IX.br (PTT.br) Curitiba	3
+175		IX.br (PTT.br) Florianópolis	1
+176		IX.br (PTT.br) Belo Horizonte	1
+177		IX.br (PTT.br) Rio de Janeiro	12
+178		IX.br (PTT.br) Brasília	3
+180			1
+181		CABASE IXP Buenos Aires	9
+184		Ukrainian Internet Exchange	6
+187		Tallinn Internet eXchange	1
+189		Hawai`i Internet Exchange	1
+190		Tallinn Internet Exchange	2
+192		Netnod Internet Exchange i Sverige AB	6
+193		Netnod Internet Exchange i Sverige AB	14
+194		Netnod Internet Exchange i Sverige AB	4
+195		Peer1 Internet Exchange - Vancouver	7
+196		Peer1 Internet Exchange - Montreal	1
+197		Peer1 Internet Exchange - Toronto	3
+198		National Internet eXchange of India	1
+199		Yellowstone Regional Internet eXchange	1
+204		CoreSite - Any2 NorthEast	9
+205		CoreSite - Any2 Miami	1
+209		European Commercial Internet Exchange Berlin	25
+210		Indonesia Internet Exchange	3
+211		JPNAP Tokyo 2	5
+212		Stuttgarter Internet eXchange, S-IX	4
+215		Bangladesh Internet Exchange	2
+217		Taipei GigaPoP Internet Exchange	1
+221		Ottawa Internet Exchange	3
+223		MSK-IX Novosibirsk (former NSK-IX)	2
+224		National Internet eXchange of India	1
+225		THailand Internet eXchange	1
+226		CoreSite - Any2 Chicago	5
+228		Reykjavik Internet Exchange	4
+230		Poznan Internet Exchange	4
+231		Internet eXchange point of the Oresund Region	4
+234		Wide NSPIXP3	2
+235		National Internet eXchange of India	2
+236		Kenya Internet Exchange Point - Nairobi	6
+239		Chicago Internet Exchange	10
+240		Milan Neutral Access Point	12
+241		Internet Exchange Nepal	1
+248		Deutscher Commercial Internet Exchange Munich	27
+249		Kansas City Internet eXchange	6
+250		Malaysia Internet Exchange	16
+252		NAP Colombia	2
+253		NAP / IXP / IX / PIT del Ecuador - Quito	4
+254		CoreSite - Any2 Denver / Formerly RMIX	13
+255		Equinix Internet Exchange Paris	74
+256		Digital Realty Phoenix Internet Exchange	4
+257		Netnod Internet Exchange i Sverige AB	1
+258		Norrnod Umea	1
+260		Open Caribbean Internet eXchange	4
+262		Swaziland Peering Point	1
+264		Polish Internet Exchange	28
+267		DRFortress Exchange	4
+269		TransACT IX	1
+270		InterLAN Internet Exchange	11
+273		Tuscany Internet eXchange	2
+274		Cairo Internet eXchange	1
+275		Belarusian Internet Exchange	1
+281		GPX Cairo	2
+283		Uppsala regional Internet exchange	1
+287		Crimea-IX	1
+288		ACT Internet Exchange	1
+291		European Commercial Internet Exchange Hamburg	22
+293		Odessa Traffic Exchange Network	1
+297		Luxembourg Commercial Internet exchange	16
+298		Norwegian Internet Exchange (location 2)	3
+299		Neutral Internet eXchange Slovakia	8
+301		Romanian Internet Exchange	7
+303		Croatian Internet Exchange	5
+311		VSIX Nap del Nord Est	2
+313		Rotterdam Internet Exchange	7
+314		IX.br (PTT.br) Londrina	1
+316		Exchange West	1
+317		Globe Internet Exchange	1
+319		Slovenian Internet Exchange	2
+321		London Internet Exchange Ltd.	106
+322		Digital Realty Dallas Internet Exchange	1
+325		Digital Realty New York Internet Exchange	27
+326		Balkan Internet Exchange	5
+327		Digital Telecom Internet Exchange	12
+328		Tampere Region Exchange	4
+331		Bulgarian Internet eXchange	11
+332		CoreSite - Any2 New York	3
+333		CoreSite - Any2 Boston	1
+334		Kazakhstan Traffic Exchange	1
+336		Toulouse Internet eXchange	1
+338		CoreSite - Any2 Silicon Valley	9
+340		Ulyanovsk Internet eXchange	1
+344		Cape Town Internet Exchange	5
+347		Greek Internet Exchange - Athens	2
+348		Wellington Internet Exchange	2
+349		Christchurch Internet Exchange	1
+350		MSK-IX Ekaterinburg (former EKT-IX)	4
+355		Quebec Internet Exchange (QIX)	16
+357		Southern Oregon Access Exchange	1
+358		Peering, LTD	15
+359		FranceIX Paris	83
+360		BCNET Vancouver Transit Exchange	1
+361		Tanzania Internet eXchange	4
+363		Southern Utah Peering Regional Network	1
+364		Santa Monica Internet Local Exchange	4
+366		Amsterdam Internet Exchange Caribbean	2
+368		GIGAbit Portuguese Internet eXchange OPorto	2
+372		BALCAN-IX	8
+373		Equinix Internet Exchange Toronto	6
+375		National Inter Connection Exchange (NiCE)	7
+377		Alpes Adria Internet eXchange	1
+378		MSK-IX Vladivostok (former VLV-IX)	1
+379		MSK-IX Samara (former SMR-IX)	1
+380		MSK-IX Rostov-on-Don (former RND-IX)	1
+381		REUNIX	1
+383		Latvian Internet Exchange	1
+387		Internet Neutral Exchange Association CLG	15
+392		Internet eXchange Moldova	1
+393		Israel Internet eXchange	2
+398		MSK-IX Kazan (former KZN-IX)	1
+400		Lietuvos Interneto paslaugų tiekėjų apsikeitimo mazgu	1
+405		Intercambio de Tráfico Nacional	1
+410		FR-IX	4
+415		IX.br (PTT.br) Campinas	2
+421		Angola Internet Exchange point	3
+422		Uganda Internet Exchange Point	3
+424		Serbian Open eXchange	6
+428		NASA Ames Internet eXchange	2
+429		Singapore Internet Exchange	21
+430		Grazer Internet eXchange	1
+435		Leeds Internet Exchange	5
+446		Midwest Internet Cooperative Exchange	13
+452		Biznet Internet Exchange	1
+453		Free Internet Exchange Oslo	5
+463		Guam Internet Exchange	1
+469		Matrix Cable Internet eXchange	2
+474		EPIX	3
+475		Lviv Internet Exchange Point	1
+476		Arizona Internet Exchange	1
+477		Commercial Brno Internet Exchange	1
+481		Thinx Poland	7
+482		TPIX	5
+487		Cyprus Internet Exchange	1
+488		Internet Exchange Point of Nigeria	5
+491		Stowarzyszenie na Rzecz Rozwoju Spoleczenstwa Informacyjnego e-Poludnie	2
+492		FICIX Oulu / FICIX3	1
+496		Buffalo Niagara International Internet Exchange	1
+498		Gdansk Internet eXchange	1
+499		The Milwaukee IX	5
+506		Greater Toronto International Internet Exchange	1
+512		Pirix Internet Exchange	1
+513		Victorian Internet Exchange (VIC-IX)	12
+514		Central Oregon Internet eXchange	1
+524		Central Polish Internet eXchange	1
+526		Lithuanian Internet eXchange Point	3
+528		Mozambique Internet Exchange	1
+529		Krasnoyarsk Internet Exchange	1
+538		Tallinn Governmental Internet Exchange	4
+542		Lithuanian peering center	4
+543		Rheintal IX Internet Exchange	2
+556		IX.br (PTT.br) Salvador	1
+558		IX.br (PTT.br) Caxias do Sul	1
+559		Slovak Internet Exchange Košice	1
+563		Jacksonville Internet Exchange	3
+564		Japan Internet Exchange Osaka	15
+565		Boston Internet Exchange	10
+566		Palmerston North Internet Exchange	1
+573		Haiti Internet Exchange	3
+575		IX.br (PTT.br) Goiânia	1
+576		Queensland Internet Exchange (QLD-IX)	8
+577		Amsterdam Internet Exchange Hong Kong	14
+580		MSK-IX Stavropol (former STW-IX)	1
+582		Bergen Internet Exchange	1
+583		LINX Manchester	31
+587		UAE-IX powered by DE-CIX	15
+592		NAPAfrica IX Johannesburg	24
+593		Equinix Internet Exchange Miami	1
+597		NAPAfrica IX Cape Town	12
+598		National Internet eXchange of India 	1
+602		Echigo Internet Exchange	1
+603		IX.br (PTT.br) Campina Grande	1
+606		Cyber 2 Internet Exchange	1
+607		Mongolian Internet Exchange & Mongolian National Data Center	1
+610		Durban Internet Exchange	2
+615		Lusaka Internet Exchange Point	1
+624		Twin Ports Internet Exchange	1
+626		IIX Jawa Timur	1
+627		Southeast Network Access Point	3
+628		RDC-IX is the national IXP in DRC with three presences whose first realization is KINIX	1
+631		Pacific IX	1
+633		South Russia IX	1
+635		Omsk Internet Exchange	1
+638		IX.br (PTT.br) Sao José dos Campos	1
+639		YYCIX Calgary Internet Exchange	5
+640		Greater Chicago International Internet Exchange	1
+655		Giganet Internet exchange network	5
+662		Phoenix IX	12
+672		CyrusOne Internet Exchange	2
+673		CyrusOne Internet Exchange	3
+674		CyrusOne Internet Exchange	1
+675		CyrusOne Internet Exchange	1
+676		European Commercial Internet Exchange Frankfurt	38
+683		Yaroslavl Internet Exchange	1
+691		South Australian Internet Exchange (SA-IX)	4
+694		Ghana Internet Exchange Association	2
+699		NetIX Communications Ltd.	10
+703		Manitoba Internet Exchange	4
+705		IX.br (PTT.br) Recife	1
+706		IX.br (PTT.br) Vitória	1
+707		IX.br (PTT.br) Manaus	1
+708		IX.br (PTT.br) Natal	1
+709		IX.br (PTT.br) São José do Rio Preto	1
+710		IX.br (PTT.br) Fortaleza	3
+711		IX.br (PTT.br) Belém	1
+713		Peering.cz eXchange	14
+716		New South Wales Internet Exchange (NSW-IX)	25
+727		Malawi Internet Exchange	1
+745		LINX Scotland	10
+760		CyrusOne Internet Exchange	2
+762		Dortmund Internet eXchange	1
+766		Donetsk Internet eXchange	1
+776		Winnipeg Internet Exchange	2
+777		LINX Northern Virginia, Ashburn, Reston and Manassas	18
+778		CIX - Cracow Internet Exchange	1
+779		Megaport MegaIX Melbourne	13
+780		Megaport MegaIX Sydney	20
+781		Megaport MegaIX Brisbane	8
+786		BroadBand Internet eXchange Osaka	7
+790		IX.br (PTT.br) Lajeado	1
+791		BigHorn Fiber Internet Exchange	1
+796		BREM-IX	4
+804		Deutscher Commercial Internet Exchange New York	50
+809		Omaha Internet Exchange	3
+810		Cote d'Ivoire Internet Exchange Point	1
+815		Nizhny Novgorod  Internet Exchange	1
+818		IX.br (PTT.br) Maringá	1
+822		Krasnoyarsk Internet Exchange	1
+823		Taipei Internet Exchange	13
+828		Rzeszowski Punkt Wymiany Ruchu	1
+829		Salt Lake Internet Exchange	2
+832		Formerly known as Mumbai Convergence Hub; Mumbai IX powered by DE-CIX	7
+833		Tampa Internet Exchange	6
+842		IXP-MEGALINK	1
+851		Armenian Internet Exchange	2
+854		HT Networks Co., Ltd.	1
+856		Voronezh Internet Exchange	1
+859		IX.br (PTT.br) Cuiabá	1
+863		Vancouver Internet Exchange	8
+864		Brno University of Technology	1
+866		SMARTHUB Internet Exchange	7
+867		OpenCarrier eG Member-IX Frankfurt	2
+869		Ohio IX	1
+876		Krasnoyarsk Internet Exchange	1
+877		Philippine Internet Exchange	1
+878		Philippine Internet Exchange	1
+880		FranceIX Marseille	18
+881		Northern France and Eurometropolis GIX	4
+904		CABASE IXP La Plata	1
+906		Halifax Internet Exchange	2
+909		BroadBand Internet eXchange Singapore	18
+911		CABASE IXP Posadas	1
+912		Cameroon Internet Exchange Point	1
+916		Citranet Internet Exchange (CIX)	1
+922		Windhoek Internet Exchange Point	2
+930		CABASE IXP Neuquén	1
+935		AMS-IX Bay Area	15
+938		Tahoe Internet Exchange	3
+940		Trinidad and Tobago Internet Exchange	3
+944		AMS-IX Chicago	14
+945		CABASE IXP Rosario	1
+948		Equinix Osaka	7
+954		FL-IX - The South Florida Internet Exchange	29
+957		Miami Internet Exchange	1
+965		Megaport MegaIX Singapore	12
+967		The Djibouti Internet Exchange	1
+969		NAPAfrica IX Durban	3
+971		Vanuatu Internet Exchange	1
+976		Australian Capital Territory	2
+977		Auckland Internet Exchange	6
+983		Universitas Negeri Yogyakarta Internet Exchange Point	1
+984		Megaport MegaIX Auckland	8
+985		Brighton Internet Exchange	1
+986		Midwest Internet Exchange Indy	5
+993		Palestine Internet Exchange Point	1
+1002		Richmond Virginia Internet Exchange	3
+1006		Detroit Internet Exchange	6
+1007		Angola Internet Exchange Point	1
+1009		Tirol-IX Internet Exchange	1
+1013		NOVOCOM NIX	1
+1016		LINX Cardiff	2
+1017		BENIN-IX	1
+1019		IXP et NAP d’Auvergne et du Massif Central	1
+1023		Costa Rica	1
+1024		Kosova Internet Exchange	1
+1025		Bangkok Neutral Internet Exchange	2
+1026		Equinix Melbourne	11
+1028		Nap Peru	1
+1032		Rwanda Internet Exchange	1
+1038		Nashville Internet Exchange	3
+1040		NormandIX	1
+1042		NAP / IXP / IX / PIT del Ecuador - Guayaquil	2
+1046		Congo Internet eXchange	1
+1051		Pacswitch Internet Exchange (HK)	1
+1052		Serekunda Internet Exchange Point	1
+1054		Trans Hybrid Communication eXchange	1
+1056		Megaport MegaIX Sofia (formerly OM-NIX)	5
+1061		Puerto Rico Bridge Initiative	1
+1062		NAP del Caribe	1
+1066		CABASE IXP Bahía Blanca	1
+1067		CABASE IXP Córdoba	1
+1068		CABASE IXP De La Costa	1
+1069		CABASE IXP Mar Del Plata	1
+1070		CABASE IXP Mendoza	1
+1071		CABASE IXP Puerto Madryn	1
+1072		CABASE IXP Santa Fe	1
+1073		Salzburg Internet eXchange - SAIX	2
+1074		Serekunda Internet Exchange Point	1
+1086		MASS IX, Boston/Massachusetts Internet Exchange	13
+1088		GlobalNet	8
+1089		T-CIX	4
+1091		ALBtelecom Internet Exchange Point	1
+1094		Global Internet Exchange & Peering Network	1
+1095		Riau Internet Exchange Point	1
+1105		Tunisia Internet Exchange Point	1
+1117		CyrusOne Internet Exchange	1
+1123		Internet Exchange Point Honduras	1
+1127			1
+1131		Deutscher Commercial Internet Exchange Palermo	6
+1133		Burundi Internet Exchange Point	1
+1134			1
+1137		Tomsk Internet eXchange by NTS	1
+1142		CyrusOne Internet Exchange	1
+1146		Espana Internet Exchange Upper LAN	18
+1149		Deutscher Commercial Internet Exchange Marseille	19
+1150		Deutscher Commercial Internet Exchange Istanbul	3
+1151		Central Internet Exchange	1
+1154		Milecom LLC, project SFO-IX	1
+1156		United Peering - free and open peering (UP-IXP)	1
+1160		Neutral Internet Exchange Valencia	1
+1168		Kherson Traffic Exchange	1
+1169		YEGIX Edmonton Internet Exchange	1
+1171		Chisinau Internet Exchange	1
+1172		CHN-IX China Beijing	1
+1174		Megaport MegaIX Seattle	6
+1175		Megaport MegaIX Los Angeles	8
+1178		Megaport MegaIX Ashburn	8
+1180		Megaport MegaIX Dallas	5
+1183		KISA 6NGIX Center	1
+1187		SYMC-IX Bangkok	1
+1188		Telecom Cambodia	1
+1191		SerinIX Internet Exchange	1
+1201		Arusha Internet eXchange Point	1
+1207		Interconnection eXchange Denver	7
+1209		Cambodian Network Exchange	2
+1210		Media-IX	1
+1212		Montgomery Internet Exchange	5
+1214		Deutscher Commercial Internet Exchange Dusseldorf	14
+1228		Cyber Data Internet Xchange	1
+1229		CODIX	1
+1235		Megaport MegaIX Perth	6
+1242			4
+1249		Deutscher Commercial Internet Exchange Dallas	15
+1262			5
+1276		IX.br (PTT.br) Foz do Iguaçu	1
+1277		Deutscher Commercial Internet Exchange Madrid	20
+1284		CHN-IX China Guangzhou	1
+1285		Seattle Internet Exchange (MTU 9000)	6
+1293		Zimbabwe Internet Exchange	1
+1302		Liverpool Internet Exchange	1
+1303		China Internet Exchange	1
+1304			1
+1307		Megaport MegaIX Toronto	2
+1308		Data Facilities Internet Exchange	6
+1312		Le GIX du Grand Ouest	1
+1314		Burkina Faso Internet eXchange	1
+1317			1
+1320		The HOPUS - the routed exchange	5
+1323		ExtremeIX Delhi	5
+1329		Non-commercial Community Exchange	4
+1332		FICIX Espoo / FICIX1	4
+1335		Madagascar Global Internet eXchange	1
+1354		Beirut Internet Exchange - Lebanon	1
+1375		CHN-IX China Shanghai	1
+1387			5
+1409		Botswana Internet Exchange	1
+1411		Bahrain Internet Exchange	1
+1412		Borås Internet Exchange	1
+1416		Casablanca Internet Exchange	1
+1418		TIX Tromsø	1
+1419		SIX Stavanger	1
+1420		TRDIX Trondheim	1
+1421		Baden-Württemberg Internet Exchange - Karlsruhe	2
+1423			1
+1428		GrenoblIX, the Grenoble IX	1
+1441		Liberia Internet Exchange Point Association	1
+1449		BroadBand Internet eXchange Hong Kong	14
+1464		Equinix Internet Exchange Helsinki	2
+1468			1
+1469		UNIFI - IX Internet Exchange	1
+1479			1
+1480		CABASE IXP Junin	1
+1481		CABASE IXP San Luis	1
+1482		CABASE IXP Pergamino	1
+1483		CABASE IXP Tucuman	1
+1484		CABASE IXP Norte de Gran Buenos Aires	1
+1485		CABASE IXP Saenz Peña, Chaco	1
+1486		CABASE IXP Salta	1
+1487		CABASE IXP Bariloche	1
+1488		Vegas-IX	1
+1489		Aloha-IX	1
+1490			1
+1504		Tehran Internet Exchange	1
+1508		Mauritius Internet Exchange Point	2
+1514		PIT Chile Santiago/ IXP Chile Santiago	5
+1516		IX.LODZ.PL - Łódzki Węzeł Telekomunikacyjny	1
+1519		St. Louis Regional Internet Exchange	2
+1522		Punto de Intercambio de Tráfico de Paraguay	1
+1533			1
+1539			1
+1541		Kenya Internet Exchange Point - Mombasa	2
+1561		Philippine Open Internet Exchange (Manila)	2
+1562		Philippine Open Internet Exchange (Cebu)	1
+1563		Philippine Open Internet Exchange (Davao)	1
+1574			1
+1577		India Internet Foundation	1
+1582			1
+1622			1
+1623		Amsterdam Internet Exchange India	5
+1627		ExtremeIX Mumbai	6
+1628		Megaport MegaIX Las Vegas	1
+1634		Santiago Internet Exchange	2
+1658			1
+1660		IXP Ecuador - Santo Domingo	1
+1663		Ryukyus Internet Exchange	1
+1668		Community IX - Atlanta	1
+1669			1
+1670		Breizh-IX	1
+1679		Northern New England Neutral Internet Exchange	2
+1684		IX.br (PTT.br) Aracaju	1
+1689			1
+1690			1
+1691			1
+1696			1
+1698		Gliwice Internet eXchange	1
+1714		IIX Jawa Barat	1
+1748		MSK-IX Riga	1
+1754			1
+1764		CABASE IXP Jujuy	1
+1771			1
+1772			1
+1773			1
+1776		Gabon Internet eXchange	1
+1785		ExtremeIX Hyderabad	1
+1786		ExtremeIX Chennai	5
+1790		Grenada Internet Exchange Point	1
+1794		IX Palmas Microtel	1
+1798		CABASE IXP Tandil	1
+1812		Asteroid Amsterdam IX	13
+1816		Advanced IX Lebanon	1
+1822			1
+1829		Saskatoon Internet Exchange Inc	3
+1833		IXP Ecuador - Manta	1
+1836		Hamilton Internet Exchange	1
+1837		Dunedin Peering Exchange	1
+1842		Speed Internet Exchange	8
+1847		IX.br (PTT.br) Santa Maria	1
+1861		CN-IX	1
+1862			1
+1863			1
+1868			3
+1869			2
+1870			1
+1886			1
+1896			1
+1915			1
+1916			1
+1917			1
+1919		Aplix - Aplitt IXP	1
+1923		Equinix Internet Exchange Stockholm	3
+1925		Equinix Internet Exchange Milan	3
+1926		Equinix Internet Exchange Dublin	3
+1927		Equinix Internet Exchange Manchester	2
+1932		Yajuu Senpai Internet eXchange	1
+1933		Piacenza Internet Exchange	1
+1958			1
+1977		CLOUD-IX MSK	3
+1978			1
+1979			1
+1980			1
+1981			1
+1982			1
+1983		IX.br (PTT.br) João Pessoa	1
+1984			1
+1991			1
+1997		Equinix Internet Exchange London	6
+1998		Equinix Internet Exchange Frankfurt	4
+1999		Pittsburgh Internet Exchange	1
+2004		Albanian Neutral Internet eXchange	1
+2005		Baltic Internet Exchange	3
+2013			1
+2031		Equinix Internet Exchange Amsterdam	3
+2032			1
+2035		Eurasia Peering LLC	6
+2036		MEX-IX McAllen	1
+2039		CABASE IXP Oeste de Gran Buenos Aires	1
+2040		CABASE IXP Resistencia	1
+2050		Global Peering Managed Services Provider	1
+2051		IVANO-FRANKIVSK INTERNET EXCHANGE	1
+2062			3
+2066			2
+2070		Moncton Internet Exchange	2
+2078		IX.br (PTT.br) Teresina	1
+2084		LocIX Internet Exchange	1
+2086		IX.br (PTT.br) São Luís	1
+2088		Philadelphia Internet Exchange	2
+2093		CABASE IXP San Juan	1
+2094		HVIX EXCHANGE	1
+2102		Myanmar Internet Exchange	1
+2116		Guam Open Research & Education Exchange	1
+2124		Central Florida Intenret Exhcange	1
+2130		Equinix Internet Exchange Madrid	1
+2131		Equinix Internet Exchange Lisbon	1
+2145			1
+2149		PITER-IX	7
+2163		Fremont Cabal Internet Exchange	1
+2167		ExtremeIX Kolkata	1
+2176			1
+2178		Georgian Internet Exchange	1
+2182		Equinix Internet Exchange Denver	1
+2183		Equinix Internet Exchange Houston	1
+2186		The Baltimore Internet Exchange	1
+2195		Amaravati Internet Exchange	1
+2207			1
+2208			1
+2210		ANI Peering Exchange	1
+2239			1
+2245		National Internet Exchange of Afghanistan	1
+2250		Kazakhstan Internet Exchange	1
+2251		Remki Internet Exchange (RIX) - Remki IX	1
+2253		Kuwait Internet Exchange	1
+2254		LebanonIX	1
+2272			1
+2274		Experimental Virtual Internet Exchange	1
+2276		Faculty of Computer Science and Engineering - IXP.mk	1
+2279		Johor Bahru Internet Exchange	2
+2285			1
+2286			1
+2287		Burundi Internet Exchange Point (BDIXP)	1
+2289		Equinix Bogota Exchange	1
+2291		IX.br (PTT.br) Maceió	1
+2299		SAIX Saudi Arabia (20759)	1
+2301		Mariana Islands Internet Exchange	1
+2312		ofis Internet Exchange	1
+2317			1
+2318			1
+2319			1
+2320		Sudan Internet Exchange Point	1
+2324		Mali Internet Exchange	1
+2325		Electromagnetic Field 2018 Popup IX	1
+2332			1
+2341		REDIX Chennai	1
+2343			1
+2345			1
+2353		Puerto Rico Internet Exchange	1
+2355		Bhutan Internet Exchange Association	1
+2360		Lesotho Internet Exchange Point	1
+2361		Seychelles Internet Exchange Point	1
+2362			1
+2365			1
+2368		CABASE IXP Viedma	1
+2381		WAF-IX, Lagos, Nigeria	1
+2386		Greek Internet Exchange - Thessaloniki	1
+2387		Saint John Internet Exchange	1
+2388		Togo Internet Exchange Point	1
