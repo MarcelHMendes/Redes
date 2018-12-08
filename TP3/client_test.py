@@ -32,7 +32,6 @@ def handle_net_names(entry_file,ip,port):
 	server_address = (ip,port)
 	name_dict = {}
 
-
 	while True:
 		request_header_net = 'GET /api/netname/' + net_id + '\rHTTP/1.1\r\nHost: ' + entry_file + '\r\n\n' 
 	
@@ -67,7 +66,7 @@ def handle_ix_objects(entry_file,ip,port):
 	take_off_header = http_response.split('"data":')
 	take_off_footer = take_off_header[1].split('"meta":')
 	
-	take_off_footer[0] = take_off_footer[0].replace('[','').replace('],','').replace('\n','').replace(' ','')
+	take_off_footer[0] = take_off_footer[0].replace('[','').replace('],','').replace('\n','')#.replace(' ','') #bug: ultimo replace
 	string = take_off_footer[0]
 
 	data_ix = "{" + '"data": [' + string +"] }"
@@ -129,7 +128,8 @@ def analysis_one():
 
 
 		string = str(ix_nets[str(i["id"])])
-		string = string.replace('{\'"data": ','').replace(']"}','')
+		string = string.replace('{\'"data": ','').replace(']"}','').replace('{"[','')
+		string = string.replace('\'','')
 		string = string.split(',')
 		string = list(set(string))
 		print(len(string), end = '\n',file = output_one)
@@ -137,21 +137,43 @@ def analysis_one():
 
 def analysis_zero():
 	names = {}
-
-	for i in ix_objects["data"]:
-		string = str(ix_nets[str(i["id"])])
-		string = string.replace('{\'"data": ','').replace(']"}','')
-		string = string.split(',')
-		string = list(set(string))
-
+	count_ixp = 0
 	for i in net_names:
 		names[i] = str(net_names[i])
 		names[i] = names[i].replace('{\'"data":','').replace('}','')
 		names[i] = names[i].replace('\'','')
 		print(i , end= '\t')	
-		print(names[i])
+		print(names[i], end= '\t')
 
-		#for k ... 
+		for k in ix_objects["data"]:
+			string = str(ix_nets[str(k["id"])])
+			string = string.replace('{\'"data": ','').replace(']"}','').replace('{"[','')
+			string = string.replace('\'','')
+			string = string.replace(' ','')
+			string = string.split(',')
+			string = list(set(string))
+			if str(i) in string:
+				count_ixp = count_ixp + 1
+		print(count_ixp)
+		count_ixp = 0
+
+
+
+def test():
+	print(ix_objects)
+
+	for i in ix_objects["data"]:
+		#print(i["id"], end = '\t\t', file = output_one)
+		print(i["name_long"])
+
+
+		string = str(ix_nets[str(i["id"])])
+		string = string.replace('{\'"data": ','').replace(']"}','').replace('{"[','')
+		string = string.replace('\'','')
+		string = string.split(',')
+		string = list(set(string))
+		#print(len(string), end = '\n',file = output_one)
+		print(string)
 
 
 
@@ -166,9 +188,11 @@ def main():
 
 	handle_data(entry_file,ip,port)
 
-	#analysis_one()
+	analysis_one()
 
-	analysis_zero()
+	#analysis_zero()
+
+	#test()
 
 if __name__ == '__main__':
 	main()
