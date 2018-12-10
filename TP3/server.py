@@ -11,16 +11,17 @@ def loadData():
 	global ix_data
 	global nixlan_data
 	
-	
-	json_path = sys.argv[1]
+
+
+	json_path = sys.argv[2]
 	net_data = json.load(open(json_path))
 
 	
-	json_path = sys.argv[2]
+	json_path = sys.argv[3]
 	ix_data = json.load(open(json_path))
 
 	
-	json_path = sys.argv[3]
+	json_path = sys.argv[4]
 	nixlan_data = json.load(open(json_path))
 
 
@@ -62,5 +63,6 @@ def showjson_net(net_id):
 		return msg
 	#verificar net id
 if __name__ == '__main__':
+	port = int(sys.argv[1])
 	loadData()
-	app.run(debug=True)
+	app.run(debug=True, port = port)
