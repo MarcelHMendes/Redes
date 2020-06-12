@@ -95,8 +95,6 @@ int main(int argc, char *argv[]){
 		exit(1);
 	}
 
-	/////////////////////////////////// TESTE
-
 	struct timeval tv;
 	tv.tv_sec = 15;
 	tv.tv_usec = 0;
@@ -114,8 +112,6 @@ int main(int argc, char *argv[]){
 
 	printf("%s\n",buf);
 	
-	//NAO ESQUECER DE PASSAR OS ARGUENTOS, VAI DAR SEGFAULT!!!!!
-
 	exit(0);
 	
 }	
