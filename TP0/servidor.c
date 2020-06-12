@@ -91,8 +91,6 @@ void *connection_handler(void *socket_desc){
 	uint32_t tamMsg;
 	uint32_t chave;
 
-	/////////////////////////////////// TESTE
-
 	struct timeval tv;
 	tv.tv_sec = 15;
 	tv.tv_usec = 0;
@@ -100,8 +98,7 @@ void *connection_handler(void *socket_desc){
 		perror("setsockopt- rcvtimeo");
     	exit(1);
 	}
-
-	/////////////////////////////////// FIM_TESTE
+	
 	size_t c = recv(sock,&tamMsg , sizeof(int), MSG_WAITALL);
 	size_t c2 = recv(sock,buf,ntohl(tamMsg),MSG_WAITALL);
 	size_t c3 = recv(sock,&chave,sizeof(int),MSG_WAITALL);	
