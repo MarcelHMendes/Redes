@@ -3,9 +3,9 @@
 
 
 ## Getting Started
-Neste repositório se encontram os trabalhos práticos da disciplina de Redes ministrada pelo professor Ítalo Cunha
+Neste repositório se encontram os trabalhos práticos da disciplina de Redes
 
-## Running the tests
+## Running tests
 
 Os códigos foram escritos em linguagem C e Python, cada TP tem sua execução especificada na documentação e especificação do trabalho.
 
